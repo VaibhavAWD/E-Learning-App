@@ -5,12 +5,16 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.vaibhavdhunde.app.elearning.data.ElearningRepository
-import com.vaibhavdhunde.app.elearning.data.Result
 import com.vaibhavdhunde.app.elearning.data.Result.Success
 import com.vaibhavdhunde.app.elearning.util.Event
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class SplashViewModel(private val repository: ElearningRepository) : ViewModel() {
+
+    private companion object {
+        const val SPLASH_DELAY = 1000L
+    }
 
     private val _dataLoading = MutableLiveData<Boolean>()
     val dataLoading: LiveData<Boolean> = _dataLoading
@@ -24,6 +28,7 @@ class SplashViewModel(private val repository: ElearningRepository) : ViewModel()
     fun loadUser() {
         _dataLoading.value = true
         viewModelScope.launch {
+            delay(SPLASH_DELAY) // purposely added delay to show splash screen
             val result = repository.getUser()
             if (result is Success) {
                 _mainEvent.value = Event(Unit)

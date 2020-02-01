@@ -10,4 +10,7 @@
     <string name="error_empty_conf_password">Please re-enter Password</string>
     <string name="error_password_mismatch">Password does not match</string>
 
+    <!-- Login Activity  -->
+    <string name="login">Login</string>
+
 </resources>
