@@ -41,8 +41,10 @@ dependencies {
 
     // unit testing
     testImplementation "junit:junit:$junit_version"
+    testImplementation "com.google.truth:truth:$truth_version"
 
     // instrumented testing
     androidTestImplementation "androidx.test.ext:junit:$ext_junit_version"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_version"
+    androidTestImplementation "com.google.truth:truth:$truth_version"
 }
