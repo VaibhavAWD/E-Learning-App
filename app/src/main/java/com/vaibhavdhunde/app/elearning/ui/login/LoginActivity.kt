@@ -4,7 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.inputmethod.EditorInfo
 import androidx.databinding.DataBindingUtil
-import com.vaibhavdhunde.app.elearning.MainActivity
+import com.vaibhavdhunde.app.elearning.ui.main.MainActivity
 import com.vaibhavdhunde.app.elearning.R
 import com.vaibhavdhunde.app.elearning.databinding.ActivityLoginBinding
 import com.vaibhavdhunde.app.elearning.ui.register.RegisterActivity

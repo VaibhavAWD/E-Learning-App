@@ -3,7 +3,7 @@ package com.vaibhavdhunde.app.elearning.ui.splash
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import com.vaibhavdhunde.app.elearning.MainActivity
+import com.vaibhavdhunde.app.elearning.ui.main.MainActivity
 import com.vaibhavdhunde.app.elearning.R
 import com.vaibhavdhunde.app.elearning.databinding.ActivitySplashBinding
 import com.vaibhavdhunde.app.elearning.ui.login.LoginActivity

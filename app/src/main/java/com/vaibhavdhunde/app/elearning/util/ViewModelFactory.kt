@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.vaibhavdhunde.app.elearning.data.ElearningRepository
 import com.vaibhavdhunde.app.elearning.ui.login.LoginViewModel
+import com.vaibhavdhunde.app.elearning.ui.main.MainViewModel
 import com.vaibhavdhunde.app.elearning.ui.register.RegisterViewModel
 import com.vaibhavdhunde.app.elearning.ui.splash.SplashViewModel
 
@@ -19,6 +20,8 @@ class ViewModelFactory(private val repository: ElearningRepository) : ViewModelP
                     LoginViewModel(repository)
                 isAssignableFrom(RegisterViewModel::class.java) ->
                     RegisterViewModel(repository)
+                isAssignableFrom(MainViewModel::class.java) ->
+                    MainViewModel(repository)
                 else -> throw IllegalArgumentException("Unknown model class: $modelClass")
             }
         } as T
