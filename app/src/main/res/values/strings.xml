@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">E-Learning</string>
+
+    <!--  Input Fields Error Messages  -->
+    <string name="error_empty_email">Please enter Email</string>
+    <string name="error_invalid_email">Invalid Email</string>
+    <string name="error_empty_password">Please enter Password</string>
+    <string name="error_invalid_password">Please should be 6–16 characters long</string>
+
 </resources>
