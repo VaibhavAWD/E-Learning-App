@@ -48,4 +48,5 @@ task clean(type: Delete) {
 
      // third party
      retrofit_version = "2.6.1"
+     kodein_version = "6.5.1"
  }
