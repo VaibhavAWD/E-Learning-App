@@ -18,5 +18,8 @@
 
     <!--  Register Activity  -->
     <string name="register">Register</string>
+    <string name="hint_name">Name</string>
+    <string name="hint_conf_password">Confirm Password</string>
+    <string name="login_here">Already have account? Login Here</string>
 
 </resources>
