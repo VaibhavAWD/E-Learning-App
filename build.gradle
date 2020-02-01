@@ -42,4 +42,7 @@ task clean(type: Delete) {
      espresso_version = "3.2.0"
      junit_version = "4.12"
      truth_version = "0.44"
+
+     // third party
+     retrofit_version = "2.6.1"
  }
