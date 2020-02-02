@@ -35,6 +35,7 @@ class ElearningRepositoryTest {
         "created_at",
         1
     )
+    private val testNewName = "Test Name**"
 
     @Before
     fun setUp() {
@@ -86,6 +87,98 @@ class ElearningRepositoryTest {
         val result = repository.registerUser("", "", "")
 
         // THEN - verify that the result is error
+        assertThat(result).isInstanceOf(Error::class.java)
+    }
+
+    @Test
+    fun updateProfileName_success_nameUpdatedInCacheAndLocal() = runBlocking {
+        // GIVEN - initially local data source has user
+        usersLocalDataSource.saveUser(testUser)
+        val initial = (repository.getUser() as Success).data
+        assertThat(initial.name).isEqualTo(testUser.name)
+
+        // WHEN - updating profile name
+        val result = repository.updateProfileName(testNewName)
+
+        // THEN - verify that the result is success and name is updated in cache and local
+        assertThat(result.succeeded).isTrue()
+        val second = (repository.getUser() as Success).data
+        assertThat(second.name).isEqualTo(testNewName)
+        val localUser = (usersLocalDataSource.getUser() as Success).data
+        assertThat(localUser.name).isEqualTo(testNewName)
+    }
+
+    @Test
+    fun updateProfileName_error() = runBlocking {
+        // GIVEN - remote data source returns error
+        usersRemoteDataSource.setShouldReturnError(true)
+
+        // initially user is loaded
+        usersLocalDataSource.saveUser(testUser)
+        repository.getUser()
+
+        // WHEN - updating profile name
+        val result = repository.updateProfileName(testNewName)
+
+        // THEN - verify that the result is error
+        assertThat(result).isInstanceOf(Error::class.java)
+    }
+
+    @Test
+    fun updatePassword_success() = runBlocking {
+        // GIVEN - initially user is loaded
+        usersLocalDataSource.saveUser(testUser)
+        repository.getUser()
+
+        // WHEN - updating password
+        val result = repository.updatePassword("", "")
+
+        // THEN - verify that the result is success
+        assertThat(result.succeeded).isTrue()
+    }
+
+    @Test
+    fun updatePassword_error() = runBlocking {
+        // GIVEN - remote data source returns error
+        usersRemoteDataSource.setShouldReturnError(true)
+
+        // initially user is loaded
+        usersLocalDataSource.saveUser(testUser)
+        repository.getUser()
+
+        // WHEN - updating password
+        val result = repository.updatePassword("", "")
+
+        // THEN - verify that the result is success
+        assertThat(result).isInstanceOf(Error::class.java)
+    }
+
+    @Test
+    fun deactivateAccount_success() = runBlocking {
+        // GIVEN - initially user is loaded
+        usersLocalDataSource.saveUser(testUser)
+        repository.getUser()
+
+        // WHEN - deactivating account
+        val result = repository.deactivateAccount()
+
+        // THEN - verify that the result is success
+        assertThat(result.succeeded).isTrue()
+    }
+
+    @Test
+    fun deactivateAccount_error() = runBlocking {
+        // GIVEN - remote data source returns error
+        usersRemoteDataSource.setShouldReturnError(true)
+
+        // initially user is loaded
+        usersLocalDataSource.saveUser(testUser)
+        repository.getUser()
+
+        // WHEN - deactivating account
+        val result = repository.deactivateAccount()
+
+        // THEN - verify that the result is success
         assertThat(result).isInstanceOf(Error::class.java)
     }
 

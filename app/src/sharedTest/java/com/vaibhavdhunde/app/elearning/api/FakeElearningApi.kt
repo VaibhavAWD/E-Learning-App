@@ -1,6 +1,7 @@
 package com.vaibhavdhunde.app.elearning.api
 
 import com.vaibhavdhunde.app.elearning.api.responses.AuthResponse
+import com.vaibhavdhunde.app.elearning.api.responses.DefaultResponse
 import com.vaibhavdhunde.app.elearning.data.entities.User
 import retrofit2.Response
 
@@ -40,6 +41,37 @@ class FakeElearningApi : ElearningApi {
             Response.success(AuthResponse(true, "Test exception", null))
         } else {
             Response.success(AuthResponse(false, null, testUser))
+        }
+    }
+
+    override suspend fun updateProfileName(
+        name: String,
+        apiKey: String
+    ): Response<DefaultResponse> {
+        return if (shouldReturnError) {
+            Response.success(DefaultResponse(true, "Test exception"))
+        } else {
+            Response.success(DefaultResponse(false, "Success"))
+        }
+    }
+
+    override suspend fun updatePassword(
+        password: String,
+        newPassword: String,
+        apiKey: String
+    ): Response<DefaultResponse> {
+        return if (shouldReturnError) {
+            Response.success(DefaultResponse(true, "Test exception"))
+        } else {
+            Response.success(DefaultResponse(false, "Success"))
+        }
+    }
+
+    override suspend fun deactivateAccount(apiKey: String): Response<DefaultResponse> {
+        return if (shouldReturnError) {
+            Response.success(DefaultResponse(true, "Test exception"))
+        } else {
+            Response.success(DefaultResponse(false, "Success"))
         }
     }
 }

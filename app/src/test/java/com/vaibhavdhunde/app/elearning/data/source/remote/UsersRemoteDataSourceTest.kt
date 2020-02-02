@@ -74,4 +74,85 @@ class UsersRemoteDataSourceTest {
         assertThat(response.message).isNotNull()
         assertThat(response.user).isNull()
     }
+
+    /**
+     * update profile name _ success
+     */
+    @Test
+    fun updateProfileName_success() = runBlocking {
+        // WHEN - update profile name
+        val response = usersRemoteDataSource.updateProfileName("", "")
+
+        // THEN - verify that the response has expected values
+        assertThat(response.error).isFalse()
+    }
+
+    /**
+     * update profile name _ error
+     */
+    @Test
+    fun updateProfileName_error() = runBlocking {
+        // GIVEN - api returns error
+        api.setShouldReturnError(true)
+
+        // WHEN - update profile name
+        val response = usersRemoteDataSource.updateProfileName("", "")
+
+        // THEN - verify that the response has expected values
+        assertThat(response.error).isTrue()
+    }
+
+    /**
+     * update password _ success
+     */
+    @Test
+    fun updatePassword_success() = runBlocking {
+        // WHEN - update password
+        val response = usersRemoteDataSource.updatePassword("", "", "")
+
+        // THEN - verify that the response has expected values
+        assertThat(response.error).isFalse()
+    }
+
+    /**
+     * update password _ error
+     */
+    @Test
+    fun updatePassword_error() = runBlocking {
+        // GIVEN - api returns error
+        api.setShouldReturnError(true)
+
+        // WHEN - update password
+        val response = usersRemoteDataSource.updatePassword("", "", "")
+
+        // THEN - verify that the response has expected values
+        assertThat(response.error).isTrue()
+    }
+
+    /**
+     * deactivate account _ success
+     */
+    @Test
+    fun deactivateAccount_success() = runBlocking {
+        // WHEN - deactivate account
+        val response = usersRemoteDataSource.deactivateAccount("")
+
+        // THEN - verify that the response has expected values
+        assertThat(response.error).isFalse()
+    }
+
+    /**
+     * deactivate account _ error
+     */
+    @Test
+    fun deactivateAccount_error() = runBlocking {
+        // GIVEN - api returns error
+        api.setShouldReturnError(true)
+
+        // WHEN - deactivate account
+        val response = usersRemoteDataSource.deactivateAccount("")
+
+        // THEN - verify that the response has expected values
+        assertThat(response.error).isTrue()
+    }
 }

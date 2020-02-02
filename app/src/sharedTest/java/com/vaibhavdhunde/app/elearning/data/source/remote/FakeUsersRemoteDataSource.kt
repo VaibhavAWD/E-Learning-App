@@ -1,9 +1,9 @@
 package com.vaibhavdhunde.app.elearning.data.source.remote
 
 import com.vaibhavdhunde.app.elearning.api.responses.AuthResponse
+import com.vaibhavdhunde.app.elearning.api.responses.DefaultResponse
 import com.vaibhavdhunde.app.elearning.data.UsersRemoteDataSource
 import com.vaibhavdhunde.app.elearning.data.entities.User
-import retrofit2.Response
 
 class FakeUsersRemoteDataSource : UsersRemoteDataSource {
 
@@ -37,6 +37,34 @@ class FakeUsersRemoteDataSource : UsersRemoteDataSource {
             AuthResponse(true, "Test exception", null)
         } else {
             AuthResponse(false, null, testUser)
+        }
+    }
+
+    override suspend fun updateProfileName(name: String, apiKey: String): DefaultResponse {
+        return if (shouldReturnError) {
+            DefaultResponse(true, "Test exception")
+        } else {
+            DefaultResponse(false, "Success")
+        }
+    }
+
+    override suspend fun updatePassword(
+        password: String,
+        newPassword: String,
+        apiKey: String
+    ): DefaultResponse {
+        return if (shouldReturnError) {
+            DefaultResponse(true, "Test exception")
+        } else {
+            DefaultResponse(false, "Success")
+        }
+    }
+
+    override suspend fun deactivateAccount(apiKey: String): DefaultResponse {
+        return if (shouldReturnError) {
+            DefaultResponse(true, "Test exception")
+        } else {
+            DefaultResponse(false, "Success")
         }
     }
 }

@@ -53,6 +53,63 @@ class DefaultElearningRepository(
         }
     }
 
+    override suspend fun updateProfileName(name: String): Result<*> {
+        return withContext(ioDispatcher) {
+            try {
+                val response = usersRemoteDataSource.updateProfileName(name, cachedUser!!.api_key)
+                if (response.error) {
+                    return@withContext Error(Exception(response.message))
+                } else {
+                    cachedUser!!.name = name
+                    saveUser(cachedUser!!)
+                    return@withContext Success(response.message)
+                }
+            } catch (e: NetworkException) {
+                return@withContext Error(e)
+            } catch (e: ApiException) {
+                return@withContext Error(e)
+            }
+        }
+    }
+
+    override suspend fun updatePassword(password: String, newPassword: String): Result<*> {
+        return withContext(ioDispatcher) {
+            try {
+                val response = usersRemoteDataSource.updatePassword(
+                    password,
+                    newPassword,
+                    cachedUser!!.api_key
+                )
+                if (response.error) {
+                    return@withContext Error(Exception(response.message))
+                } else {
+                    return@withContext Success(response.message)
+                }
+            } catch (e: NetworkException) {
+                return@withContext Error(e)
+            } catch (e: ApiException) {
+                return@withContext Error(e)
+            }
+        }
+    }
+
+    override suspend fun deactivateAccount(): Result<*> {
+        return withContext(ioDispatcher) {
+            try {
+                val response = usersRemoteDataSource.deactivateAccount(cachedUser!!.api_key)
+                if (response.error) {
+                    return@withContext Error(Exception(response.message))
+                } else {
+                    return@withContext Success(response.message)
+                }
+            } catch (e: NetworkException) {
+                return@withContext Error(e)
+            } catch (e: ApiException) {
+                return@withContext Error(e)
+            }
+        }
+    }
+
     override suspend fun getUser(): Result<User> = withContext(ioDispatcher) {
         if (cachedUser != null) {
             return@withContext Success(cachedUser!!)

@@ -1,13 +1,12 @@
 package com.vaibhavdhunde.app.elearning.api
 
 import com.vaibhavdhunde.app.elearning.api.responses.AuthResponse
+import com.vaibhavdhunde.app.elearning.api.responses.DefaultResponse
 import okhttp3.OkHttpClient
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.Field
-import retrofit2.http.FormUrlEncoded
-import retrofit2.http.POST
+import retrofit2.http.*
 
 interface ElearningApi {
 
@@ -26,7 +25,29 @@ interface ElearningApi {
         @Field("password") password: String
     ): Response<AuthResponse>
 
+    @FormUrlEncoded
+    @PUT("profilename")
+    suspend fun updateProfileName(
+        @Field("name") name: String,
+        @Header(AUTHORIZATION) apiKey: String
+    ): Response<DefaultResponse>
+
+    @FormUrlEncoded
+    @PUT("password")
+    suspend fun updatePassword(
+        @Field("password") password: String,
+        @Field("new_password") newPassword: String,
+        @Header(AUTHORIZATION) apiKey: String
+    ): Response<DefaultResponse>
+
+    @PUT("deactivate")
+    suspend fun deactivateAccount(
+        @Header(AUTHORIZATION) apiKey: String
+    ): Response<DefaultResponse>
+
     companion object {
+
+        private const val AUTHORIZATION = "Authorization"
 
         private const val BASE_URL = "https://simplifycoders.com/api/elearning/v1/"
 

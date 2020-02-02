@@ -8,7 +8,7 @@ const val CURRENT_USER_ID = 0
 @Entity(tableName = "users")
 data class User(
     val id: Long,
-    val name: String,
+    var name: String,
     val email: String,
     val password_hash: String,
     val api_key: String,

@@ -30,6 +30,31 @@ class FakeElearningRepository : ElearningRepository {
         }
     }
 
+    override suspend fun updateProfileName(name: String): Result<*> {
+        return if (shouldReturnError) {
+            Error(Exception("Test exception"))
+        } else {
+            user!!.name = name
+            Success(Unit)
+        }
+    }
+
+    override suspend fun updatePassword(password: String, newPassword: String): Result<*> {
+        return if (shouldReturnError) {
+            Error(Exception("Test exception"))
+        } else {
+            Success(Unit)
+        }
+    }
+
+    override suspend fun deactivateAccount(): Result<*> {
+        return if (shouldReturnError) {
+            Error(Exception("Test exception"))
+        } else {
+            Success(Unit)
+        }
+    }
+
     override suspend fun getUser(): Result<User> {
         return if (user != null) {
             Success(user!!)
