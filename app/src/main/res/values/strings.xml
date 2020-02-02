@@ -9,6 +9,7 @@
     <string name="error_invalid_password">Password should be 6–16 characters long</string>
     <string name="error_empty_conf_password">Please re-enter Password</string>
     <string name="error_password_mismatch">Password does not match</string>
+    <string name="error_empty_new_password">Please enter New Password</string>
 
     <!--  Nav View  -->
     <string name="nav_profile">Profile</string>
