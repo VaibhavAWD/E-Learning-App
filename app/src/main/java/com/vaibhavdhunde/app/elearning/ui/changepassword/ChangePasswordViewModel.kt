@@ -27,8 +27,8 @@ class ChangePasswordViewModel(private val repository: ElearningRepository) : Vie
     private val _closeSoftKeyboardEvent = MutableLiveData<Event<Unit>>()
     val closeSoftKeyboardEvent: LiveData<Event<Unit>> = _closeSoftKeyboardEvent
 
-    private val _loginEvent = MutableLiveData<Event<Any>>()
-    val loginEvent: LiveData<Event<Any>> = _loginEvent
+    private val _loginEvent = MutableLiveData<Event<Unit>>()
+    val loginEvent: LiveData<Event<Unit>> = _loginEvent
 
     fun updatePassword() {
         if (!hasValidData()) return

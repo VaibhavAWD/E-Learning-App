@@ -40,5 +40,7 @@
 
     <!-- Change Password Fragment -->
     <string name="label_change_password">Change Password</string>
+    <string name="hint_new_password">New Password</string>
+    <string name="update_password">Update Password</string>
 
 </resources>

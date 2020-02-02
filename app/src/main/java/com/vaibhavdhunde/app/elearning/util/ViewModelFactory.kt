@@ -3,6 +3,7 @@ package com.vaibhavdhunde.app.elearning.util
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.vaibhavdhunde.app.elearning.data.ElearningRepository
+import com.vaibhavdhunde.app.elearning.ui.changepassword.ChangePasswordViewModel
 import com.vaibhavdhunde.app.elearning.ui.login.LoginViewModel
 import com.vaibhavdhunde.app.elearning.ui.main.MainViewModel
 import com.vaibhavdhunde.app.elearning.ui.profile.ProfileViewModel
@@ -25,6 +26,8 @@ class ViewModelFactory(private val repository: ElearningRepository) : ViewModelP
                     MainViewModel(repository)
                 isAssignableFrom(ProfileViewModel::class.java) ->
                     ProfileViewModel(repository)
+                isAssignableFrom(ChangePasswordViewModel::class.java) ->
+                    ChangePasswordViewModel(repository)
                 else -> throw IllegalArgumentException("Unknown model class: $modelClass")
             }
         } as T
