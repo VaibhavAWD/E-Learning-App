@@ -59,9 +59,6 @@ class ProfileViewModelTest {
         profileViewModel = ProfileViewModel(repository)
     }
 
-    /**
-     * load profile _ success _ loading toggles and data loaded
-     */
     @Test
     fun loadProfile_success_loadingTogglesAndDataLoaded() = runBlocking {
         // WHEN - loading profile
@@ -83,9 +80,6 @@ class ProfileViewModelTest {
         assertThat(LiveDataTestUtil.getValue(profileViewModel.dataAvailable)).isTrue()
     }
 
-    /**
-     * load profile _ error
-     */
     @Test
     fun loadProfile_error_loadingTogglesAndDataNotLoaded() = runBlocking {
         // GIVEN - repository returns error
@@ -110,9 +104,6 @@ class ProfileViewModelTest {
         assertThat(LiveDataTestUtil.getValue(profileViewModel.dataAvailable)).isFalse()
     }
 
-    /**
-     * update profile name _ empty name _ error
-     */
     @Test
     fun updateProfileName_emptyName_error() = runBlocking {
         // GIVEN - name is empty
@@ -137,9 +128,6 @@ class ProfileViewModelTest {
         assertLiveDataEventTriggered(profileViewModel.closeSoftKeyboardEvent, Unit)
     }
 
-    /**
-     * update profile name _ success _ sets event
-     */
     @Test
     fun updateProfileName_success_loadingTogglesAndSetsEvent() = runBlocking {
         // GIVEN - user is loaded
@@ -161,11 +149,11 @@ class ProfileViewModelTest {
 
         // verify that show message event is set
         assertLiveDataEventTriggered(profileViewModel.showMessageEvent, "Success")
+
+        // verify that name updated event is set
+        assertLiveDataEventTriggered(profileViewModel.nameUpdatedEvent, Unit)
     }
 
-    /**
-     * update profile name _ error _ sets event
-     */
     @Test
     fun updateProfileName_error_loadingTogglesAndSetsEvent() = runBlocking {
         // GIVEN - repository returns error
@@ -189,9 +177,6 @@ class ProfileViewModelTest {
         assertLiveDataEventTriggered(profileViewModel.showMessageEvent, "Test exception")
     }
 
-    /**
-     * change password _ sets event
-     */
     @Test
     fun changePassword_setsEvent() {
         // WHEN - change password
@@ -201,9 +186,6 @@ class ProfileViewModelTest {
         assertLiveDataEventTriggered(profileViewModel.changePasswordEvent, Unit)
     }
 
-    /**
-     * logout user _ deletes user and sets event
-     */
     @Test
     fun logoutUser_deletesUserAndSetsEvent() = runBlocking {
         // WHEN - logout user
@@ -221,9 +203,6 @@ class ProfileViewModelTest {
         assertLiveDataEventTriggered(profileViewModel.loginEvent, Unit)
     }
 
-    /**
-     * show deactivate account alert dialog _ sets event
-     */
     @Test
     fun showDeactivateAccountAlertDialog_setsEvent() {
         // WHEN - show deactivate account alert dialog
@@ -233,9 +212,6 @@ class ProfileViewModelTest {
         assertLiveDataEventTriggered(profileViewModel.deactivateAccountAlertEvent, Unit)
     }
 
-    /**
-     * deactivate account _ success _ loading toggles and sets event
-     */
     @Test
     fun deactivateAccount_success_loadingTogglesAndSetsEvent() = runBlocking {
         // WHEN - deactivate account
@@ -253,11 +229,11 @@ class ProfileViewModelTest {
 
         // verify that show message event is set
         assertLiveDataEventTriggered(profileViewModel.showMessageEvent, "Success")
+
+        // verify that login event is set
+        assertLiveDataEventTriggered(profileViewModel.loginEvent, Unit)
     }
 
-    /**
-     * deactivate account _ error _ loading toggles and sets event
-     */
     @Test
     fun deactivateAccount_error_loadingTogglesAndSetsEvent() = runBlocking {
         // GIVEN - repository returns error

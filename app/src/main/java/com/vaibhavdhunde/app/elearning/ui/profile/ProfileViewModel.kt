@@ -32,6 +32,9 @@ class ProfileViewModel(private val repository: ElearningRepository) : ViewModel(
     private val _closeSoftKeyboardEvent = MutableLiveData<Event<Unit>>()
     val closeSoftKeyboardEvent: LiveData<Event<Unit>> = _closeSoftKeyboardEvent
 
+    private val _nameUpdatedEvent = MutableLiveData<Event<Unit>>()
+    val nameUpdatedEvent: LiveData<Event<Unit>> = _nameUpdatedEvent
+
     private val _changePasswordEvent = MutableLiveData<Event<Unit>>()
     val changePasswordEvent: LiveData<Event<Unit>> = _changePasswordEvent
 
@@ -67,6 +70,7 @@ class ProfileViewModel(private val repository: ElearningRepository) : ViewModel(
             if (result is Success) {
                 val message = result.data as String
                 _showMessageEvent.value = Event(message)
+                _nameUpdatedEvent.value = Event(Unit)
             } else {
                 val error = (result as Error).exception.message as String
                 _showMessageEvent.value = Event(error)
@@ -110,6 +114,7 @@ class ProfileViewModel(private val repository: ElearningRepository) : ViewModel(
             if (result is Success) {
                 val message = result.data as String
                 _showMessageEvent.value = Event(message)
+                _loginEvent.value = Event(Unit)
             } else {
                 val error = (result as Error).exception.message as String
                 _showMessageEvent.value = Event(error)

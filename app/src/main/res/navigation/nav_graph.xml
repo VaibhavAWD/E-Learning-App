@@ -11,4 +11,19 @@
         android:label="@string/app_name"
         tools:layout="@layout/fragment_dashboard" />
 
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.vaibhavdhunde.app.elearning.ui.profile.ProfileFragment"
+        android:label="@string/label_profile" >
+        <action
+            android:id="@+id/actionChangePassword"
+            app:destination="@id/changePasswordFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/changePasswordFragment"
+        android:name="com.vaibhavdhunde.app.elearning.ui.changepassword.ChangePasswordFragment"
+        android:label="@string/label_change_password"
+        tools:layout="@layout/fragment_change_password" />
+
 </navigation>

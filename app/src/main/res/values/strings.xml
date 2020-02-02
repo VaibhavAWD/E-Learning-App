@@ -10,6 +10,9 @@
     <string name="error_empty_conf_password">Please re-enter Password</string>
     <string name="error_password_mismatch">Password does not match</string>
 
+    <!--  Nav View  -->
+    <string name="nav_profile">Profile</string>
+
     <!-- Login Activity  -->
     <string name="login">Login</string>
     <string name="hint_email">Email</string>
@@ -21,5 +24,20 @@
     <string name="hint_name">Name</string>
     <string name="hint_conf_password">Confirm Password</string>
     <string name="login_here">Already have account? Login Here</string>
+
+    <!--  Profile Fragment  -->
+    <string name="label_profile">Profile</string>
+    <string name="change_password">Change Password?</string>
+    <string name="save_profile">Save Profile</string>
+    <string name="no_data">No Data</string>
+    <string name="menu_logout">Logout</string>
+    <string name="menu_deactivate_account">Deactivate Account</string>
+    <string name="dialog_title_confirm_action">Confirm Action</string>
+    <string name="dialog_msg_confirm_action">This will deactivate your account and your profile will not be visible anymore in leader board</string>
+    <string name="option_cancel">Cancel</string>
+    <string name="option_deactivate">Deactivate</string>
+
+    <!-- Change Password Fragment -->
+    <string name="label_change_password">Change Password</string>
 
 </resources>
