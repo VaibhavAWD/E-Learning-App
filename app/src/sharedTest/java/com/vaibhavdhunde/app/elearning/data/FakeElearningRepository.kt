@@ -35,7 +35,7 @@ class FakeElearningRepository : ElearningRepository {
             Error(Exception("Test exception"))
         } else {
             user!!.name = name
-            Success(Unit)
+            Success("Success")
         }
     }
 
@@ -43,7 +43,7 @@ class FakeElearningRepository : ElearningRepository {
         return if (shouldReturnError) {
             Error(Exception("Test exception"))
         } else {
-            Success(Unit)
+            Success("Success")
         }
     }
 
@@ -51,11 +51,14 @@ class FakeElearningRepository : ElearningRepository {
         return if (shouldReturnError) {
             Error(Exception("Test exception"))
         } else {
-            Success(Unit)
+            Success("Success")
         }
     }
 
     override suspend fun getUser(): Result<User> {
+        if (shouldReturnError) {
+            return Error(Exception("Test exception"))
+        }
         return if (user != null) {
             Success(user!!)
         } else {
