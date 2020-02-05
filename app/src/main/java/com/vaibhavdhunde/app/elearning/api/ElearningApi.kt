@@ -1,9 +1,6 @@
 package com.vaibhavdhunde.app.elearning.api
 
-import com.vaibhavdhunde.app.elearning.api.responses.AuthResponse
-import com.vaibhavdhunde.app.elearning.api.responses.DefaultResponse
-import com.vaibhavdhunde.app.elearning.api.responses.SubjectsResponse
-import com.vaibhavdhunde.app.elearning.api.responses.TopicsResponse
+import com.vaibhavdhunde.app.elearning.api.responses.*
 import okhttp3.OkHttpClient
 import retrofit2.Response
 import retrofit2.Retrofit
@@ -60,6 +57,14 @@ interface ElearningApi {
     suspend fun getTopics(
         @Query("subject_id") subjectId: Long
     ): Response<TopicsResponse>
+
+    /**
+     * Subtopics Api
+     */
+    @GET("subtopics")
+    suspend fun getSubtopics(
+        @Query("topic_id") topicId: Long
+    ): Response<SubtopicsResponse>
 
     companion object {
 

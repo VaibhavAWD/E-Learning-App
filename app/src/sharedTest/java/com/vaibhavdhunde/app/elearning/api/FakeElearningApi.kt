@@ -1,10 +1,8 @@
 package com.vaibhavdhunde.app.elearning.api
 
-import com.vaibhavdhunde.app.elearning.api.responses.AuthResponse
-import com.vaibhavdhunde.app.elearning.api.responses.DefaultResponse
-import com.vaibhavdhunde.app.elearning.api.responses.SubjectsResponse
-import com.vaibhavdhunde.app.elearning.api.responses.TopicsResponse
+import com.vaibhavdhunde.app.elearning.api.responses.*
 import com.vaibhavdhunde.app.elearning.data.entities.Subject
+import com.vaibhavdhunde.app.elearning.data.entities.Subtopic
 import com.vaibhavdhunde.app.elearning.data.entities.Topic
 import com.vaibhavdhunde.app.elearning.data.entities.User
 import retrofit2.Response
@@ -54,6 +52,27 @@ class FakeElearningApi : ElearningApi {
         1,
         "Test Subject 2",
         "Test Subtitle 2"
+    )
+
+    // test subtopics data
+    private val testSubtopic1 = Subtopic(
+        1,
+        1,
+        "Test Subtopic 1",
+        "Test Body 1",
+        "https://test.com/url",
+        "https://test.com/image.jpg",
+        "2:44"
+    )
+
+    private val testSubtopic2 = Subtopic(
+        2,
+        1,
+        "Test Subtopic 2",
+        "Test Body 2",
+        "https://test.com/url2",
+        "https://test.com/image2.jpg",
+        "3:17"
     )
 
     override suspend fun loginUser(email: String, password: String): Response<AuthResponse> {
@@ -120,6 +139,14 @@ class FakeElearningApi : ElearningApi {
             Response.success(TopicsResponse(true, "Test exception", null))
         } else {
             Response.success(TopicsResponse(false, null, listOf(testTopic1, testTopic2)))
+        }
+    }
+
+    override suspend fun getSubtopics(topicId: Long): Response<SubtopicsResponse> {
+        return if (shouldReturnError) {
+            Response.success(SubtopicsResponse(true, "Test exception", null))
+        } else {
+            Response.success(SubtopicsResponse(false, null, listOf(testSubtopic1, testSubtopic2)))
         }
     }
 }
