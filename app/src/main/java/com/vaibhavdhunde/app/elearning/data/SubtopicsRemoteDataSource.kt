@@ -7,5 +7,5 @@ interface SubtopicsRemoteDataSource {
 
     suspend fun getSubtopics(topicId: Long): SubtopicsResponse
 
-    suspend fun getSubtopic(subtopicId: Long): SubtopicResponse
+    suspend fun getSubtopic(subtopicId: Long, apiKey: String): SubtopicResponse
 }

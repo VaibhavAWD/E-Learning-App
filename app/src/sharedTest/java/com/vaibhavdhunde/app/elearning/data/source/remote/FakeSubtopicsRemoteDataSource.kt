@@ -25,7 +25,7 @@ class FakeSubtopicsRemoteDataSource : SubtopicsRemoteDataSource {
         }
     }
 
-    override suspend fun getSubtopic(subtopicId: Long): SubtopicResponse {
+    override suspend fun getSubtopic(subtopicId: Long, apiKey: String): SubtopicResponse {
         return if (shouldReturnError) {
             SubtopicResponse(true, "Test exception", null)
         } else {

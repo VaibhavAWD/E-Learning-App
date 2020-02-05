@@ -68,7 +68,8 @@ interface ElearningApi {
 
     @GET("subtopics/{id}")
     suspend fun getSubtopic(
-        @Path("id") subtopicId: Long
+        @Path("id") subtopicId: Long,
+        @Header(AUTHORIZATION) apiKey: String
     ): Response<SubtopicResponse>
 
     companion object {

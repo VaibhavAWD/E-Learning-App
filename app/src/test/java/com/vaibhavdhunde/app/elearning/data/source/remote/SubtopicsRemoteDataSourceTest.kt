@@ -52,7 +52,7 @@ class SubtopicsRemoteDataSourceTest {
     @Test
     fun getSubtopic_success_subtopicReturned() = runBlocking {
         // WHEN - getting subtopic
-        val response = subtopicsRemoteDataSource.getSubtopic(1)
+        val response = subtopicsRemoteDataSource.getSubtopic(1, "")
 
         // THEN - verify that the response has expected values
         assertThat(response.error).isFalse()
@@ -66,7 +66,7 @@ class SubtopicsRemoteDataSourceTest {
         api.setShouldReturnError(true)
 
         // WHEN - getting subtopic
-        val response = subtopicsRemoteDataSource.getSubtopic(1)
+        val response = subtopicsRemoteDataSource.getSubtopic(1, "")
 
         // THEN - verify that the response has expected values
         assertThat(response.error).isTrue()

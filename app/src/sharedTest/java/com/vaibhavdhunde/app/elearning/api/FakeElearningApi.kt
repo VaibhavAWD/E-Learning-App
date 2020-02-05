@@ -150,7 +150,7 @@ class FakeElearningApi : ElearningApi {
         }
     }
 
-    override suspend fun getSubtopic(subtopicId: Long): Response<SubtopicResponse> {
+    override suspend fun getSubtopic(subtopicId: Long, apiKey: String): Response<SubtopicResponse> {
         return if (shouldReturnError) {
             Response.success(SubtopicResponse(true, "Test exception", null))
         } else {

@@ -20,9 +20,9 @@ class ISubtopicsRemoteDataSource(
         }
     }
 
-    override suspend fun getSubtopic(subtopicId: Long): SubtopicResponse {
+    override suspend fun getSubtopic(subtopicId: Long, apiKey: String): SubtopicResponse {
         return withContext(ioDispatcher) {
-            return@withContext SafeApiRequest.apiRequest { api.getSubtopic(subtopicId) }
+            return@withContext SafeApiRequest.apiRequest { api.getSubtopic(subtopicId, apiKey) }
         }
     }
 }

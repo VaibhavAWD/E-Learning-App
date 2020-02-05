@@ -200,7 +200,7 @@ class DefaultElearningRepository(
     override suspend fun getSubtopic(subtopicId: Long): Result<Subtopic> {
         return withContext(ioDispatcher) {
             try {
-                val response = subtopicsRemoteDataSource.getSubtopic(subtopicId)
+                val response = subtopicsRemoteDataSource.getSubtopic(subtopicId, cachedUser!!.api_key)
                 if (response.error) {
                     return@withContext Error(Exception(response.message))
                 } else {
