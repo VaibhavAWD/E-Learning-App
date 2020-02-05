@@ -1,5 +1,6 @@
 package com.vaibhavdhunde.app.elearning.data
 
+import com.vaibhavdhunde.app.elearning.data.entities.Subject
 import com.vaibhavdhunde.app.elearning.data.entities.User
 
 interface ElearningRepository {
@@ -14,7 +15,7 @@ interface ElearningRepository {
 
     suspend fun deactivateAccount(): Result<*>
 
-    suspend fun getSubjects(forceUpdate: Boolean = false): Result<*>
+    suspend fun getSubjects(forceUpdate: Boolean = false): Result<List<Subject>>
 
     suspend fun getUser(): Result<User>
 

@@ -9,27 +9,15 @@ class FakeElearningRepository : ElearningRepository {
 
     private var user: User? = null
 
-    private var subjects: List<Subject>? = null
+    var subjects: List<Subject> = emptyList()
+
+    private var cachedSubjects: MutableList<Subject>? = null
 
     private var shouldReturnError = false
 
     fun setShouldReturnError(value: Boolean) {
         shouldReturnError = value
     }
-
-    // test subject data
-    private val testSubject1 = Subject(
-        1,
-        "Test Subject1 ",
-        "Test subtitle 1",
-        "https://testapi.com/image1.jpg"
-    )
-    private val testSubject2 = Subject(
-        2,
-        "Test Subject 2",
-        "Test subtitle 2",
-        "https://testapi.com/image2.jpg"
-    )
 
     override suspend fun loginUser(email: String, password: String): Result<*> {
         return if (shouldReturnError) {
@@ -72,12 +60,16 @@ class FakeElearningRepository : ElearningRepository {
         }
     }
 
-    override suspend fun getSubjects(forceUpdate: Boolean): Result<*> {
+    override suspend fun getSubjects(forceUpdate: Boolean): Result<List<Subject>> {
         return if (shouldReturnError) {
             Error(Exception("Test exception"))
         } else {
-            subjects?.let { return Success(it) }
-            Success(listOf(testSubject1, testSubject2))
+            if (!forceUpdate) {
+                cachedSubjects?.let { return Success(it.toList()) }
+            }
+            cachedSubjects?.clear()
+            cachedSubjects = subjects.toMutableList()
+            Success(cachedSubjects!!.toList())
         }
     }
 

@@ -9,6 +9,7 @@ import com.vaibhavdhunde.app.elearning.ui.main.MainViewModel
 import com.vaibhavdhunde.app.elearning.ui.profile.ProfileViewModel
 import com.vaibhavdhunde.app.elearning.ui.register.RegisterViewModel
 import com.vaibhavdhunde.app.elearning.ui.splash.SplashViewModel
+import com.vaibhavdhunde.app.elearning.ui.subjects.SubjectsViewModel
 
 class ViewModelFactory(private val repository: ElearningRepository) : ViewModelProvider.Factory {
 
@@ -28,6 +29,8 @@ class ViewModelFactory(private val repository: ElearningRepository) : ViewModelP
                     ProfileViewModel(repository)
                 isAssignableFrom(ChangePasswordViewModel::class.java) ->
                     ChangePasswordViewModel(repository)
+                isAssignableFrom(SubjectsViewModel::class.java) ->
+                    SubjectsViewModel(repository)
                 else -> throw IllegalArgumentException("Unknown model class: $modelClass")
             }
         } as T

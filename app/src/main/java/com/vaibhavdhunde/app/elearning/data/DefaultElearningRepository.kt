@@ -114,11 +114,11 @@ class DefaultElearningRepository(
         }
     }
 
-    override suspend fun getSubjects(forceUpdate: Boolean): Result<*> {
+    override suspend fun getSubjects(forceUpdate: Boolean): Result<List<Subject>> {
         return withContext(ioDispatcher) {
             if (!forceUpdate) {
                 if (cachedSubjects != null) {
-                    return@withContext Success(cachedSubjects)
+                    return@withContext Success(cachedSubjects!!)
                 }
             }
             try {
@@ -129,7 +129,7 @@ class DefaultElearningRepository(
                     val subjects = response.subjects
                     cachedSubjects?.toMutableList()?.clear()
                     cachedSubjects = subjects
-                    return@withContext Success(cachedSubjects)
+                    return@withContext Success(cachedSubjects!!)
                 }
             } catch (e: NetworkException) {
                 return@withContext Error(e)
