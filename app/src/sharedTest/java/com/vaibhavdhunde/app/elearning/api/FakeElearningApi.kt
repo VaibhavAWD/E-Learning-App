@@ -3,7 +3,9 @@ package com.vaibhavdhunde.app.elearning.api
 import com.vaibhavdhunde.app.elearning.api.responses.AuthResponse
 import com.vaibhavdhunde.app.elearning.api.responses.DefaultResponse
 import com.vaibhavdhunde.app.elearning.api.responses.SubjectsResponse
+import com.vaibhavdhunde.app.elearning.api.responses.TopicsResponse
 import com.vaibhavdhunde.app.elearning.data.entities.Subject
+import com.vaibhavdhunde.app.elearning.data.entities.Topic
 import com.vaibhavdhunde.app.elearning.data.entities.User
 import retrofit2.Response
 
@@ -38,6 +40,20 @@ class FakeElearningApi : ElearningApi {
         "Test Subject 2",
         "Test subtitle 2",
         "https://testapi.com/image2.jpg"
+    )
+
+    // test topics data
+    private val testTopic1 = Topic(
+        1,
+        1,
+        "Test Subject 1",
+        "Test Subtitle 1"
+    )
+    private val testTopic2 = Topic(
+        2,
+        1,
+        "Test Subject 2",
+        "Test Subtitle 2"
     )
 
     override suspend fun loginUser(email: String, password: String): Response<AuthResponse> {
@@ -96,6 +112,14 @@ class FakeElearningApi : ElearningApi {
             Response.success(SubjectsResponse(true, "Test exception", null))
         } else {
             Response.success(SubjectsResponse(false, null, listOf(testSubject1, testSubject2)))
+        }
+    }
+
+    override suspend fun getTopics(subjectId: Long): Response<TopicsResponse> {
+        return if (shouldReturnError) {
+            Response.success(TopicsResponse(true, "Test exception", null))
+        } else {
+            Response.success(TopicsResponse(false, null, listOf(testTopic1, testTopic2)))
         }
     }
 }
