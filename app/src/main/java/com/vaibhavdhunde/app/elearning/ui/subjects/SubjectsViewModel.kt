@@ -26,10 +26,10 @@ class SubjectsViewModel(private val repository: ElearningRepository) : ViewModel
     private val _topicsEvent = MutableLiveData<Event<Long>>()
     val topicsEvent: LiveData<Event<Long>> = _topicsEvent
 
-    fun loadSubjects(forceUpdate: Boolean = false) {
+    fun loadSubjects() {
         _dataLoading.value = true
         viewModelScope.launch {
-            val result = repository.getSubjects(forceUpdate)
+            val result = repository.getSubjects()
             if (result is Success) {
                 _subjects.value = result.data
             } else {

@@ -26,10 +26,10 @@ class SubtopicsViewModel(private val repository: ElearningRepository) : ViewMode
     private val _subtopicEvent = MutableLiveData<Event<Long>>()
     val subtopicEvent: LiveData<Event<Long>> = _subtopicEvent
 
-    fun loadSubtopics(topicId: Long, forceUpdate: Boolean = false) {
+    fun loadSubtopics(topicId: Long) {
         _dataLoading.value = true
         viewModelScope.launch {
-            val result = repository.getSubtopics(topicId, forceUpdate)
+            val result = repository.getSubtopics(topicId)
             if (result is Success) {
                 _subtopics.value = result.data
             } else {

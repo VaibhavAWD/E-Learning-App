@@ -17,11 +17,11 @@ interface ElearningRepository {
 
     suspend fun deactivateAccount(): Result<*>
 
-    suspend fun getSubjects(forceUpdate: Boolean = false): Result<List<Subject>>
+    suspend fun getSubjects(): Result<List<Subject>>
 
-    suspend fun getTopics(subjectId: Long, forceUpdate: Boolean = false): Result<List<Topic>>
+    suspend fun getTopics(subjectId: Long): Result<List<Topic>>
 
-    suspend fun getSubtopics(topicId: Long, forceUpdate: Boolean = false): Result<List<Subtopic>>
+    suspend fun getSubtopics(topicId: Long): Result<List<Subtopic>>
 
     suspend fun getSubtopic(subtopicId: Long): Result<Subtopic>
 

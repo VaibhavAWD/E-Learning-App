@@ -23,12 +23,6 @@ class DefaultElearningRepository(
 
     private var cachedUser: User? = null
 
-    private var cachedSubjects: List<Subject>? = null
-
-    private var cachedTopics: List<Topic>? = null
-
-    private var cachedSubtopics: List<Subtopic>? = null
-
     override suspend fun loginUser(email: String, password: String): Result<*> {
         return withContext(ioDispatcher) {
             try {
@@ -122,22 +116,14 @@ class DefaultElearningRepository(
         }
     }
 
-    override suspend fun getSubjects(forceUpdate: Boolean): Result<List<Subject>> {
+    override suspend fun getSubjects(): Result<List<Subject>> {
         return withContext(ioDispatcher) {
-            if (!forceUpdate) {
-                if (cachedSubjects != null) {
-                    return@withContext Success(cachedSubjects!!)
-                }
-            }
             try {
                 val response = subjectsRemoteDataSource.getSubjects()
                 if (response.error) {
                     return@withContext Error(Exception(response.message))
                 } else {
-                    val subjects = response.subjects
-                    cachedSubjects?.toMutableList()?.clear()
-                    cachedSubjects = subjects
-                    return@withContext Success(cachedSubjects!!)
+                    return@withContext Success(response.subjects!!)
                 }
             } catch (e: NetworkException) {
                 return@withContext Error(e)
@@ -147,22 +133,14 @@ class DefaultElearningRepository(
         }
     }
 
-    override suspend fun getTopics(subjectId: Long, forceUpdate: Boolean): Result<List<Topic>> {
+    override suspend fun getTopics(subjectId: Long): Result<List<Topic>> {
         return withContext(ioDispatcher) {
-            if (!forceUpdate) {
-                if (cachedTopics != null) {
-                    return@withContext Success(cachedTopics!!)
-                }
-            }
             try {
                 val response = topicsRemoteDataSource.getTopics(subjectId)
                 if (response.error) {
                     return@withContext Error(Exception(response.message))
                 } else {
-                    val topics = response.topics
-                    cachedTopics?.toMutableList()?.clear()
-                    cachedTopics = topics
-                    return@withContext Success(cachedTopics!!)
+                    return@withContext Success(response.topics!!)
                 }
             } catch (e: NetworkException) {
                 return@withContext Error(e)
@@ -172,22 +150,14 @@ class DefaultElearningRepository(
         }
     }
 
-    override suspend fun getSubtopics(topicId: Long, forceUpdate: Boolean): Result<List<Subtopic>> {
+    override suspend fun getSubtopics(topicId: Long): Result<List<Subtopic>> {
         return withContext(ioDispatcher) {
-            if (!forceUpdate) {
-                if (cachedSubtopics != null) {
-                    return@withContext Success(cachedSubtopics!!)
-                }
-            }
             try {
                 val response = subtopicsRemoteDataSource.getSubtopics(topicId)
                 if (response.error) {
                     return@withContext Error(Exception(response.message))
                 } else {
-                    val subtopics = response.subtopics
-                    cachedSubtopics?.toMutableList()?.clear()
-                    cachedSubtopics = subtopics
-                    return@withContext Success(cachedSubtopics!!)
+                    return@withContext Success(response.subtopics!!)
                 }
             } catch (e: NetworkException) {
                 return@withContext Error(e)
@@ -200,7 +170,8 @@ class DefaultElearningRepository(
     override suspend fun getSubtopic(subtopicId: Long): Result<Subtopic> {
         return withContext(ioDispatcher) {
             try {
-                val response = subtopicsRemoteDataSource.getSubtopic(subtopicId, cachedUser!!.api_key)
+                val response =
+                    subtopicsRemoteDataSource.getSubtopic(subtopicId, cachedUser!!.api_key)
                 if (response.error) {
                     return@withContext Error(Exception(response.message))
                 } else {

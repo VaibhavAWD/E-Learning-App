@@ -259,7 +259,7 @@ class ElearningRepositoryTest {
     }
 
     @Test
-    fun getSubjects_emptyCache_subjectsLoadedFromRemote() = runBlocking {
+    fun getSubjects_success_subjectsLoadedFromRemote() = runBlocking {
         // GIVEN - remote has subjects
         subjectsRemoteDataSource.subjects = remoteSubjects
 
@@ -273,43 +273,12 @@ class ElearningRepositoryTest {
     }
 
     @Test
-    fun getSubjects_repositoryCachesAfterRemote() = runBlocking {
-        // remote has subjects
-        subjectsRemoteDataSource.subjects = remoteSubjects
-
-        // GIVEN - initial subjects
-        val initial = (repository.getSubjects() as Success).data
-
-        // WHEN - getting subjects
-        val second = (repository.getSubjects() as Success).data
-
-        // THEN - verify that the initial and second is same as now subjects are cached
-        assertThat(initial).isEqualTo(second)
-    }
-
-    @Test
-    fun getSubjects_forceUpdate_repositoryCachesAfterRemote() = runBlocking {
-        // remote has subjects
-        subjectsRemoteDataSource.subjects = listOf(testSubject1)
-
-        // GIVEN - initial subjects
-        val initial = (repository.getSubjects() as Success).data
-
-        // WHEN - getting subjects with force update
-        subjectsRemoteDataSource.subjects = listOf(testSubject1, testSubject2)
-        val second = (repository.getSubjects(true) as Success).data
-
-        // THEN - verify that the initial and second are not same as now subjects are forced from remote
-        assertThat(initial).isNotEqualTo(second)
-    }
-
-    @Test
     fun getSubjects_error() = runBlocking {
         // GIVEN - remote returns error
         subjectsRemoteDataSource.setShouldReturnError(true)
 
         // WHEN - getting subjects
-        val result = repository.getSubjects(true)
+        val result = repository.getSubjects()
 
         // THEN - verify that the result is error
         assertThat(result).isInstanceOf(Error::class.java)
@@ -330,43 +299,12 @@ class ElearningRepositoryTest {
     }
 
     @Test
-    fun getTopics_repositoryCachesAfterRemote() = runBlocking {
-        // remote has topics
-        topicsRemoteDataSource.topics = remoteTopics
-
-        // GIVEN - initial topics
-        val initial = (repository.getTopics(1) as Success).data
-
-        // WHEN - getting topics
-        val second = (repository.getTopics(1) as Success).data
-
-        // THEN - verify that the initial and second is same as now subjects are cached
-        assertThat(initial).isEqualTo(second)
-    }
-
-    @Test
-    fun getTopics_forceUpdate_repositoryCachesAfterRemote() = runBlocking {
-        // remote has topics
-        topicsRemoteDataSource.topics = listOf(testTopic1)
-
-        // GIVEN - initial topics
-        val initial = (repository.getTopics(1) as Success).data
-
-        // WHEN - getting topics with force update
-        topicsRemoteDataSource.topics = listOf(testTopic1, testTopic2)
-        val second = (repository.getTopics(1, true) as Success).data
-
-        // THEN - verify that the initial and second are not same as now subjects are forced from remote
-        assertThat(initial).isNotEqualTo(second)
-    }
-
-    @Test
     fun getTopics_error() = runBlocking {
         // GIVEN - remote returns error
         topicsRemoteDataSource.setShouldReturnError(true)
 
         // WHEN - getting topics
-        val result = repository.getTopics(1, true)
+        val result = repository.getTopics(1)
 
         // THEN - verify that the result is error
         assertThat(result).isInstanceOf(Error::class.java)
@@ -387,43 +325,12 @@ class ElearningRepositoryTest {
     }
 
     @Test
-    fun getSubtopics_repositoryCachesAfterRemote() = runBlocking {
-        // remote has subtopics
-        subtopicsRemoteDataSource.subtopics = remoteSubtopics
-
-        // GIVEN - initial subtopics
-        val initial = (repository.getSubtopics(1) as Success).data
-
-        // WHEN - getting topics
-        val second = (repository.getSubtopics(1) as Success).data
-
-        // THEN - verify that the initial and second is same as now subtopics are cached
-        assertThat(initial).isEqualTo(second)
-    }
-
-    @Test
-    fun getSubtopics_forceUpdate_repositoryCachesAfterRemote() = runBlocking {
-        // remote has subtopics
-        subtopicsRemoteDataSource.subtopics = listOf(testSubtopic1)
-
-        // GIVEN - initial subtopics
-        val initial = (repository.getSubtopics(1) as Success).data
-
-        // WHEN - getting subtopics with force update
-        subtopicsRemoteDataSource.subtopics = listOf(testSubtopic1, testSubtopic2)
-        val second = (repository.getSubtopics(1, true) as Success).data
-
-        // THEN - verify that the initial and second are not same as now subtopics are forced from remote
-        assertThat(initial).isNotEqualTo(second)
-    }
-
-    @Test
     fun getSubtopics_error() = runBlocking {
         // GIVEN - remote returns error
         subtopicsRemoteDataSource.setShouldReturnError(true)
 
         // WHEN - getting subtopics
-        val result = repository.getSubtopics(1, true)
+        val result = repository.getSubtopics(1)
 
         // THEN - verify that the result is error
         assertThat(result).isInstanceOf(Error::class.java)
@@ -431,6 +338,10 @@ class ElearningRepositoryTest {
 
     @Test
     fun getSubtopic_success_subtopicReturned() = runBlocking {
+        // initially repository loads user
+        usersLocalDataSource.saveUser(testUser)
+        repository.getUser()
+
         // GIVEN - remote has subtopic
         subtopicsRemoteDataSource.subtopic = testSubtopic1
 
@@ -444,6 +355,10 @@ class ElearningRepositoryTest {
 
     @Test
     fun getSubtopic_error() = runBlocking {
+        // initially repository loads user
+        usersLocalDataSource.saveUser(testUser)
+        repository.getUser()
+
         // GIVEN - remote returns error
         subtopicsRemoteDataSource.setShouldReturnError(true)
 

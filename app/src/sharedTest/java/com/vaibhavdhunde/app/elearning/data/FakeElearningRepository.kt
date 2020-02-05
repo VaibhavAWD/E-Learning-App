@@ -13,15 +13,9 @@ class FakeElearningRepository : ElearningRepository {
 
     var subjects: List<Subject> = emptyList()
 
-    private var cachedSubjects: MutableList<Subject>? = null
-
     var topics: List<Topic> = emptyList()
 
-    private var cachedTopics: MutableList<Topic>? = null
-
     var subtopics: List<Subtopic> = emptyList()
-
-    private var cachedSubtopics: MutableList<Subtopic>? = null
 
     var subtopic: Subtopic? = null
 
@@ -72,42 +66,27 @@ class FakeElearningRepository : ElearningRepository {
         }
     }
 
-    override suspend fun getSubjects(forceUpdate: Boolean): Result<List<Subject>> {
+    override suspend fun getSubjects(): Result<List<Subject>> {
         return if (shouldReturnError) {
             Error(Exception("Test exception"))
         } else {
-            if (!forceUpdate) {
-                cachedSubjects?.let { return Success(it.toList()) }
-            }
-            cachedSubjects?.clear()
-            cachedSubjects = subjects.toMutableList()
-            Success(cachedSubjects!!.toList())
+            Success(subjects)
         }
     }
 
-    override suspend fun getTopics(subjectId: Long, forceUpdate: Boolean): Result<List<Topic>> {
+    override suspend fun getTopics(subjectId: Long): Result<List<Topic>> {
         return if (shouldReturnError) {
             Error(Exception("Test exception"))
         } else {
-            if (!forceUpdate) {
-                cachedTopics?.let { return Success(it.toList()) }
-            }
-            cachedTopics?.clear()
-            cachedTopics = topics.toMutableList()
-            Success(cachedTopics!!.toList())
+            Success(topics)
         }
     }
 
-    override suspend fun getSubtopics(topicId: Long, forceUpdate: Boolean): Result<List<Subtopic>> {
+    override suspend fun getSubtopics(topicId: Long): Result<List<Subtopic>> {
         return if (shouldReturnError) {
             Error(Exception("Test exception"))
         } else {
-            if (!forceUpdate) {
-                cachedSubtopics?.let { return Success(it.toList()) }
-            }
-            cachedSubtopics?.clear()
-            cachedSubtopics = subtopics.toMutableList()
-            Success(cachedSubtopics!!.toList())
+            Success(subtopics)
         }
     }
 

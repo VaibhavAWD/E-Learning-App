@@ -56,7 +56,7 @@ class SubtopicsFragment : Fragment(), KodeinAware {
     private fun setupRefresh() {
         refresh.setOnRefreshListener {
             refresh.isRefreshing = false
-            loadSubtopics(true)
+            loadSubtopics()
         }
     }
 
@@ -72,8 +72,8 @@ class SubtopicsFragment : Fragment(), KodeinAware {
         })
     }
 
-    private fun loadSubtopics(forceUpdate: Boolean = false) {
-        binding.viewmodel?.loadSubtopics(getTopicId(), forceUpdate)
+    private fun loadSubtopics() {
+        binding.viewmodel?.loadSubtopics(getTopicId())
     }
 
     private fun navigateToSubtopicFragment(subtopicId: Long) {
