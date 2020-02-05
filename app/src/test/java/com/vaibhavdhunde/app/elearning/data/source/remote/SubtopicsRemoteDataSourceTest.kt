@@ -48,4 +48,29 @@ class SubtopicsRemoteDataSourceTest {
         assertThat(response.message).isNotNull()
         assertThat(response.subtopics).isNull()
     }
+
+    @Test
+    fun getSubtopic_success_subtopicReturned() = runBlocking {
+        // WHEN - getting subtopic
+        val response = subtopicsRemoteDataSource.getSubtopic(1)
+
+        // THEN - verify that the response has expected values
+        assertThat(response.error).isFalse()
+        assertThat(response.message).isNull()
+        assertThat(response.subtopic).isNotNull()
+    }
+
+    @Test
+    fun getSubtopic_error_subtopicNotReturned() = runBlocking {
+        // GIVEN - api returns error
+        api.setShouldReturnError(true)
+
+        // WHEN - getting subtopic
+        val response = subtopicsRemoteDataSource.getSubtopic(1)
+
+        // THEN - verify that the response has expected values
+        assertThat(response.error).isTrue()
+        assertThat(response.message).isNotNull()
+        assertThat(response.subtopic).isNull()
+    }
 }

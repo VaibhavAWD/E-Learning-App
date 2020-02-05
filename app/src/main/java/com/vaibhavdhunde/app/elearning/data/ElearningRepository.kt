@@ -23,6 +23,8 @@ interface ElearningRepository {
 
     suspend fun getSubtopics(topicId: Long, forceUpdate: Boolean = false): Result<List<Subtopic>>
 
+    suspend fun getSubtopic(subtopicId: Long): Result<Subtopic>
+
     suspend fun getUser(): Result<User>
 
     suspend fun saveUser(user: User)

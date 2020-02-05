@@ -66,6 +66,11 @@ interface ElearningApi {
         @Query("topic_id") topicId: Long
     ): Response<SubtopicsResponse>
 
+    @GET("subtopics/{id}")
+    suspend fun getSubtopic(
+        @Path("id") subtopicId: Long
+    ): Response<SubtopicResponse>
+
     companion object {
 
         private const val AUTHORIZATION = "Authorization"

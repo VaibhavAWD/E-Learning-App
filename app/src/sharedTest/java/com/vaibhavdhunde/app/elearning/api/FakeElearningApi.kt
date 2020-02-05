@@ -149,4 +149,12 @@ class FakeElearningApi : ElearningApi {
             Response.success(SubtopicsResponse(false, null, listOf(testSubtopic1, testSubtopic2)))
         }
     }
+
+    override suspend fun getSubtopic(subtopicId: Long): Response<SubtopicResponse> {
+        return if (shouldReturnError) {
+            Response.success(SubtopicResponse(true, "Test exception", null))
+        } else {
+            Response.success(SubtopicResponse(false, null, testSubtopic1))
+        }
+    }
 }

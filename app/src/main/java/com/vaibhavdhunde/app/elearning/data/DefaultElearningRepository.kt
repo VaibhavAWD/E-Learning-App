@@ -197,6 +197,23 @@ class DefaultElearningRepository(
         }
     }
 
+    override suspend fun getSubtopic(subtopicId: Long): Result<Subtopic> {
+        return withContext(ioDispatcher) {
+            try {
+                val response = subtopicsRemoteDataSource.getSubtopic(subtopicId)
+                if (response.error) {
+                    return@withContext Error(Exception(response.message))
+                } else {
+                    return@withContext Success(response.subtopic!!)
+                }
+            } catch (e: NetworkException) {
+                return@withContext Error(e)
+            } catch (e: ApiException) {
+                return@withContext Error(e)
+            }
+        }
+    }
+
     override suspend fun getUser(): Result<User> = withContext(ioDispatcher) {
         if (cachedUser != null) {
             return@withContext Success(cachedUser!!)

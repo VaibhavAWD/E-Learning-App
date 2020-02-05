@@ -430,6 +430,31 @@ class ElearningRepositoryTest {
     }
 
     @Test
+    fun getSubtopic_success_subtopicReturned() = runBlocking {
+        // GIVEN - remote has subtopic
+        subtopicsRemoteDataSource.subtopic = testSubtopic1
+
+        // WHEN - getting subtopic
+        val result = repository.getSubtopic(1)
+
+        // THEN - verify that the result has subtopic
+        assertThat(result.succeeded).isTrue()
+        assertThat((result as Success).data).isEqualTo(testSubtopic1)
+    }
+
+    @Test
+    fun getSubtopic_error() = runBlocking {
+        // GIVEN - remote returns error
+        subtopicsRemoteDataSource.setShouldReturnError(true)
+
+        // WHEN - getting subtopic
+        val result = repository.getSubtopic(1)
+
+        // THEN - verify that the result is error
+        assertThat(result).isInstanceOf(Error::class.java)
+    }
+
+    @Test
     fun getUser_userCachesAfterLocal() = runBlocking {
         // GIVEN - local data source has user
         usersLocalDataSource.saveUser(testUser)

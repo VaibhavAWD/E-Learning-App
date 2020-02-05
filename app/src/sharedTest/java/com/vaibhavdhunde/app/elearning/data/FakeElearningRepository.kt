@@ -23,6 +23,8 @@ class FakeElearningRepository : ElearningRepository {
 
     private var cachedSubtopics: MutableList<Subtopic>? = null
 
+    var subtopic: Subtopic? = null
+
     private var shouldReturnError = false
 
     fun setShouldReturnError(value: Boolean) {
@@ -106,6 +108,14 @@ class FakeElearningRepository : ElearningRepository {
             cachedSubtopics?.clear()
             cachedSubtopics = subtopics.toMutableList()
             Success(cachedSubtopics!!.toList())
+        }
+    }
+
+    override suspend fun getSubtopic(subtopicId: Long): Result<Subtopic> {
+        return if (shouldReturnError) {
+            Error(Exception("Test exception"))
+        } else {
+            Success(subtopic!!)
         }
     }
 
