@@ -22,6 +22,7 @@
         android:id="@+id/fragment_subtopics"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        tools:visibility="gone"
         android:orientation="vertical">
 
         <FrameLayout
@@ -39,29 +40,15 @@
 
         </FrameLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/list_subtopics"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:clipToPadding="false"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp"
-            android:scrollbarStyle="outsideOverlay"
-            android:scrollbars="vertical"
-            android:visibility="@{viewmodel.empty ? View.GONE : View.VISIBLE}"
-            app:adapter="@{adapter}"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:subtopics="@{viewmodel.subtopics}"
-            tools:listitem="@layout/item_subtopic" />
-
         <LinearLayout
             android:id="@+id/no_subtopics_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
+            tools:visibility="gone"
             android:orientation="vertical"
             android:padding="16dp"
-            android:visibility="@{viewmodel.empty ? View.VISIBLE : View.GONE}">
+            android:visibility="@{viewmodel.dataAvailable ? View.GONE : View.VISIBLE}">
 
             <TextView
                 android:id="@+id/no_subtopics_label"
@@ -79,6 +66,21 @@
                 android:text="@string/retry" />
 
         </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/list_subtopics"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:scrollbarStyle="outsideOverlay"
+            android:scrollbars="vertical"
+            android:visibility="@{viewmodel.dataAvailable ? View.VISIBLE : View.GONE}"
+            app:adapter="@{adapter}"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:subtopics="@{viewmodel.subtopics}"
+            tools:listitem="@layout/item_subtopic" />
 
     </LinearLayout>
 

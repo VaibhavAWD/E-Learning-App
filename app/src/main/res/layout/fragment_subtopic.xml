@@ -39,7 +39,8 @@
             android:gravity="center"
             android:orientation="vertical"
             android:padding="16dp"
-            android:visibility="@{viewmodel.dataAvailable ? View.GONE : View.VISIBLE}">
+            android:visibility="@{viewmodel.dataAvailable ? View.GONE : View.VISIBLE}"
+            tools:visibility="gone">
 
             <TextView
                 android:id="@+id/no_data_label"

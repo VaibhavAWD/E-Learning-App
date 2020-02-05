@@ -79,7 +79,7 @@ class SubjectsViewModelTest {
 
         // and data loaded
         assertThat(LiveDataTestUtil.getValue(subjectsViewModel.subjects)).isEqualTo(remoteSubjects)
-        assertThat(LiveDataTestUtil.getValue(subjectsViewModel.empty)).isFalse()
+        assertThat(LiveDataTestUtil.getValue(subjectsViewModel.dataAvailable)).isTrue()
     }
 
     @Test
@@ -102,7 +102,7 @@ class SubjectsViewModelTest {
 
         // and data is empty
         assertThat(LiveDataTestUtil.getValue(subjectsViewModel.subjects)).isEmpty()
-        assertThat(LiveDataTestUtil.getValue(subjectsViewModel.empty)).isTrue()
+        assertThat(LiveDataTestUtil.getValue(subjectsViewModel.dataAvailable)).isFalse()
 
         // verify that the show message event is set
         assertLiveDataEventTriggered(subjectsViewModel.showMessageEvent, "Test exception")

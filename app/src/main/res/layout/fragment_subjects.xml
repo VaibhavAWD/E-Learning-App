@@ -39,21 +39,6 @@
 
         </FrameLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/list_subjects"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:clipToPadding="false"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp"
-            android:scrollbarStyle="outsideOverlay"
-            android:scrollbars="vertical"
-            android:visibility="@{viewmodel.empty ? View.GONE : View.VISIBLE}"
-            app:adapter="@{adapter}"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:subjects="@{viewmodel.subjects}"
-            tools:listitem="@layout/item_subject" />
-
         <LinearLayout
             android:id="@+id/no_subjects_container"
             android:layout_width="match_parent"
@@ -61,7 +46,8 @@
             android:gravity="center"
             android:orientation="vertical"
             android:padding="16dp"
-            android:visibility="@{viewmodel.empty ? View.VISIBLE : View.GONE}">
+            android:visibility="@{viewmodel.dataAvailable ? View.GONE : View.VISIBLE}"
+            tools:visibility="gone">
 
             <TextView
                 android:id="@+id/no_subjects_label"
@@ -74,12 +60,27 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_retry"
                 android:layout_width="wrap_content"
-                android:onClick="@{() -> viewmodel.loadSubjects()}"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                android:onClick="@{() -> viewmodel.loadSubjects()}"
                 android:text="@string/retry" />
 
         </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/list_subjects"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:scrollbarStyle="outsideOverlay"
+            android:scrollbars="vertical"
+            android:visibility="@{viewmodel.dataAvailable ? View.VISIBLE : View.GONE}"
+            app:adapter="@{adapter}"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:subjects="@{viewmodel.subjects}"
+            tools:listitem="@layout/item_subject" />
 
     </LinearLayout>
 

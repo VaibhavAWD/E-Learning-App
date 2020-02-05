@@ -39,21 +39,6 @@
 
         </FrameLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/list_topics"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:clipToPadding="false"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp"
-            android:scrollbarStyle="outsideOverlay"
-            android:scrollbars="vertical"
-            android:visibility="@{viewmodel.empty ? View.GONE : View.VISIBLE}"
-            app:adapter="@{adapter}"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:topics="@{viewmodel.topics}"
-            tools:listitem="@layout/item_topic" />
-
         <LinearLayout
             android:id="@+id/no_topics_container"
             android:layout_width="match_parent"
@@ -61,7 +46,8 @@
             android:gravity="center"
             android:orientation="vertical"
             android:padding="16dp"
-            android:visibility="@{viewmodel.empty ? View.VISIBLE : View.GONE}">
+            android:visibility="@{viewmodel.dataAvailable ? View.GONE : View.VISIBLE}"
+            tools:visibility="gone">
 
             <TextView
                 android:id="@+id/no_topics_label"
@@ -79,6 +65,21 @@
                 android:text="@string/retry" />
 
         </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/list_topics"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:scrollbarStyle="outsideOverlay"
+            android:scrollbars="vertical"
+            android:visibility="@{viewmodel.dataAvailable ? View.VISIBLE : View.GONE}"
+            app:adapter="@{adapter}"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:topics="@{viewmodel.topics}"
+            tools:listitem="@layout/item_topic" />
 
     </LinearLayout>
 

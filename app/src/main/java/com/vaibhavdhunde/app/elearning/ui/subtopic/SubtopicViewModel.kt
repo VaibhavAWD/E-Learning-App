@@ -26,6 +26,12 @@ class SubtopicViewModel(private val repository: ElearningRepository) : ViewModel
     val showMessageEvent: LiveData<Event<String>> = _showMessageEvent
 
     fun loadSubtopic(subtopicId: Long) {
+        _dataLoading.value?.let { isLoading ->
+            if (isLoading) return
+        }
+        _dataAvailable.value?.let { isAvailable ->
+            if (isAvailable) return
+        }
         _dataLoading.value = true
         viewModelScope.launch {
             val result = repository.getSubtopic(subtopicId)

@@ -13,12 +13,11 @@ class SubtopicsViewModel(private val repository: ElearningRepository) : ViewMode
     private val _subtopics = MutableLiveData<List<Subtopic>>()
     val subtopics: LiveData<List<Subtopic>> = _subtopics
 
-    val empty: LiveData<Boolean> = Transformations.map(_subtopics) {
-        it.isEmpty()
-    }
-
     private val _dataLoading = MutableLiveData<Boolean>()
     val dataLoading: LiveData<Boolean> = _dataLoading
+
+    private val _dataAvailable = MutableLiveData<Boolean>()
+    val dataAvailable: LiveData<Boolean> = _dataAvailable
 
     private val _showMessageEvent = MutableLiveData<Event<String>>()
     val showMessageEvent: LiveData<Event<String>> = _showMessageEvent
@@ -27,13 +26,21 @@ class SubtopicsViewModel(private val repository: ElearningRepository) : ViewMode
     val subtopicEvent: LiveData<Event<Long>> = _subtopicEvent
 
     fun loadSubtopics(topicId: Long) {
+        _dataLoading.value?.let { isLoading ->
+            if (isLoading) return
+        }
+        _dataAvailable.value?.let { isAvailable ->
+            if (isAvailable) return
+        }
         _dataLoading.value = true
         viewModelScope.launch {
             val result = repository.getSubtopics(topicId)
             if (result is Success) {
                 _subtopics.value = result.data
+                _dataAvailable.value = true
             } else {
                 _subtopics.value = emptyList()
+                _dataAvailable.value = false
                 val error = (result as Error).exception.message as String
                 _showMessageEvent.value = Event(error)
             }
