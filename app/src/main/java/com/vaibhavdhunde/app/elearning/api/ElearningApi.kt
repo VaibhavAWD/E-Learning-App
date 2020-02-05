@@ -2,6 +2,7 @@ package com.vaibhavdhunde.app.elearning.api
 
 import com.vaibhavdhunde.app.elearning.api.responses.AuthResponse
 import com.vaibhavdhunde.app.elearning.api.responses.DefaultResponse
+import com.vaibhavdhunde.app.elearning.api.responses.SubjectsResponse
 import okhttp3.OkHttpClient
 import retrofit2.Response
 import retrofit2.Retrofit
@@ -44,6 +45,12 @@ interface ElearningApi {
     suspend fun deactivateAccount(
         @Header(AUTHORIZATION) apiKey: String
     ): Response<DefaultResponse>
+
+    /**
+     * Subjects Api
+     */
+    @GET("subjects")
+    suspend fun getSubjects(): Response<SubjectsResponse>
 
     companion object {
 

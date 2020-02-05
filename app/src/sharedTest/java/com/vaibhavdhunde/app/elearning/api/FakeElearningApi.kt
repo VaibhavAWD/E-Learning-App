@@ -2,6 +2,8 @@ package com.vaibhavdhunde.app.elearning.api
 
 import com.vaibhavdhunde.app.elearning.api.responses.AuthResponse
 import com.vaibhavdhunde.app.elearning.api.responses.DefaultResponse
+import com.vaibhavdhunde.app.elearning.api.responses.SubjectsResponse
+import com.vaibhavdhunde.app.elearning.data.entities.Subject
 import com.vaibhavdhunde.app.elearning.data.entities.User
 import retrofit2.Response
 
@@ -22,6 +24,20 @@ class FakeElearningApi : ElearningApi {
         "api_key",
         "created_at",
         1
+    )
+
+    // test subject data
+    private val testSubject1 = Subject(
+        1,
+        "Test Subject1 ",
+        "Test subtitle 1",
+        "https://testapi.com/image1.jpg"
+    )
+    private val testSubject2 = Subject(
+        2,
+        "Test Subject 2",
+        "Test subtitle 2",
+        "https://testapi.com/image2.jpg"
     )
 
     override suspend fun loginUser(email: String, password: String): Response<AuthResponse> {
@@ -72,6 +88,14 @@ class FakeElearningApi : ElearningApi {
             Response.success(DefaultResponse(true, "Test exception"))
         } else {
             Response.success(DefaultResponse(false, "Success"))
+        }
+    }
+
+    override suspend fun getSubjects(): Response<SubjectsResponse> {
+        return if (shouldReturnError) {
+            Response.success(SubjectsResponse(true, "Test exception", null))
+        } else {
+            Response.success(SubjectsResponse(false, null, listOf(testSubject1, testSubject2)))
         }
     }
 }
