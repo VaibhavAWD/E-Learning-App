@@ -10,6 +10,7 @@ import com.vaibhavdhunde.app.elearning.ui.profile.ProfileViewModel
 import com.vaibhavdhunde.app.elearning.ui.register.RegisterViewModel
 import com.vaibhavdhunde.app.elearning.ui.splash.SplashViewModel
 import com.vaibhavdhunde.app.elearning.ui.subjects.SubjectsViewModel
+import com.vaibhavdhunde.app.elearning.ui.subtopic.SubtopicViewModel
 import com.vaibhavdhunde.app.elearning.ui.subtopics.SubtopicsViewModel
 import com.vaibhavdhunde.app.elearning.ui.topics.TopicsViewModel
 
@@ -37,6 +38,8 @@ class ViewModelFactory(private val repository: ElearningRepository) : ViewModelP
                     TopicsViewModel(repository)
                 isAssignableFrom(SubtopicsViewModel::class.java) ->
                     SubtopicsViewModel(repository)
+                isAssignableFrom(SubtopicViewModel::class.java) ->
+                    SubtopicViewModel(repository)
                 else -> throw IllegalArgumentException("Unknown model class: $modelClass")
             }
         } as T
