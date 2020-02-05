@@ -58,7 +58,7 @@ interface ElearningApi {
      */
     @GET("topics")
     suspend fun getTopics(
-        @Field("subject_id") subjectId: Long
+        @Query("subject_id") subjectId: Long
     ): Response<TopicsResponse>
 
     companion object {
