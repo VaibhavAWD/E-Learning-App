@@ -4,9 +4,11 @@ import com.google.common.truth.Truth.assertThat
 import com.vaibhavdhunde.app.elearning.data.Result.Error
 import com.vaibhavdhunde.app.elearning.data.Result.Success
 import com.vaibhavdhunde.app.elearning.data.entities.Subject
+import com.vaibhavdhunde.app.elearning.data.entities.Topic
 import com.vaibhavdhunde.app.elearning.data.entities.User
 import com.vaibhavdhunde.app.elearning.data.source.local.FakeUsersLocalDataSource
 import com.vaibhavdhunde.app.elearning.data.source.remote.FakeSubjectsRemoteDataSource
+import com.vaibhavdhunde.app.elearning.data.source.remote.FakeTopicsRemoteDataSource
 import com.vaibhavdhunde.app.elearning.data.source.remote.FakeUsersRemoteDataSource
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
@@ -29,6 +31,9 @@ class ElearningRepositoryTest {
 
     // Use fake subjects remote data source for testing
     private lateinit var subjectsRemoteDataSource: FakeSubjectsRemoteDataSource
+
+    // Use fake topics remote data source for testing
+    private lateinit var topicsRemoteDataSource: FakeTopicsRemoteDataSource
 
     // test user data
     private val testUser = User(
@@ -57,15 +62,32 @@ class ElearningRepositoryTest {
     )
     private val remoteSubjects = listOf(testSubject1, testSubject2)
 
+    // test topics data
+    private val testTopic1 = Topic(
+        1,
+        1,
+        "Test Subject 1",
+        "Test Subtitle 1"
+    )
+    private val testTopic2 = Topic(
+        2,
+        1,
+        "Test Subject 2",
+        "Test Subtitle 2"
+    )
+    private val remoteTopics = listOf(testTopic1, testTopic2)
+
     @Before
     fun setUp() {
         usersLocalDataSource = FakeUsersLocalDataSource()
         usersRemoteDataSource = FakeUsersRemoteDataSource()
         subjectsRemoteDataSource = FakeSubjectsRemoteDataSource()
+        topicsRemoteDataSource = FakeTopicsRemoteDataSource()
         repository = DefaultElearningRepository(
             usersLocalDataSource,
             usersRemoteDataSource,
-            subjectsRemoteDataSource
+            subjectsRemoteDataSource,
+            topicsRemoteDataSource
         )
     }
 
@@ -259,6 +281,63 @@ class ElearningRepositoryTest {
 
         // WHEN - getting subjects
         val result = repository.getSubjects(true)
+
+        // THEN - verify that the result is error
+        assertThat(result).isInstanceOf(Error::class.java)
+    }
+
+    @Test
+    fun getTopics_emptyCache_topicsLoadedFromRemote() = runBlocking {
+        // GIVEN - remote has topics
+        topicsRemoteDataSource.topics = remoteTopics
+
+        // WHEN - getting topics
+        val result = repository.getTopics(1)
+
+        // THEN - verify that the subjects are loaded from remote
+        assertThat(result.succeeded).isTrue()
+        val subjects = (result as Success).data
+        assertThat(subjects).isEqualTo(remoteTopics)
+    }
+
+    @Test
+    fun getTopics_repositoryCachesAfterRemote() = runBlocking {
+        // remote has topics
+        topicsRemoteDataSource.topics = remoteTopics
+
+        // GIVEN - initial topics
+        val initial = (repository.getTopics(1) as Success).data
+
+        // WHEN - getting topics
+        val second = (repository.getTopics(1) as Success).data
+
+        // THEN - verify that the initial and second is same as now subjects are cached
+        assertThat(initial).isEqualTo(second)
+    }
+
+    @Test
+    fun getTopics_forceUpdate_repositoryCachesAfterRemote() = runBlocking {
+        // remote has topics
+        topicsRemoteDataSource.topics = listOf(testTopic1)
+
+        // GIVEN - initial topics
+        val initial = (repository.getTopics(1) as Success).data
+
+        // WHEN - getting topics with force update
+        topicsRemoteDataSource.topics = listOf(testTopic1, testTopic2)
+        val second = (repository.getTopics(1, true) as Success).data
+
+        // THEN - verify that the initial and second are not same as now subjects are forced from remote
+        assertThat(initial).isNotEqualTo(second)
+    }
+
+    @Test
+    fun getTopics_error() = runBlocking {
+        // GIVEN - remote returns error
+        topicsRemoteDataSource.setShouldReturnError(true)
+
+        // WHEN - getting topics
+        val result = repository.getTopics(1, true)
 
         // THEN - verify that the result is error
         assertThat(result).isInstanceOf(Error::class.java)
