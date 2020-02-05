@@ -4,6 +4,7 @@ import com.vaibhavdhunde.app.elearning.api.ApiException
 import com.vaibhavdhunde.app.elearning.api.NetworkException
 import com.vaibhavdhunde.app.elearning.data.Result.Error
 import com.vaibhavdhunde.app.elearning.data.Result.Success
+import com.vaibhavdhunde.app.elearning.data.entities.Subject
 import com.vaibhavdhunde.app.elearning.data.entities.User
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -12,10 +13,13 @@ import kotlinx.coroutines.withContext
 class DefaultElearningRepository(
     private val usersLocalDataSource: UsersLocalDataSource,
     private val usersRemoteDataSource: UsersRemoteDataSource,
+    private val subjectsRemoteDataSource: SubjectsRemoteDataSource,
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : ElearningRepository {
 
     private var cachedUser: User? = null
+
+    private var cachedSubjects: List<Subject>? = null
 
     override suspend fun loginUser(email: String, password: String): Result<*> {
         return withContext(ioDispatcher) {
@@ -101,6 +105,31 @@ class DefaultElearningRepository(
                     return@withContext Error(Exception(response.message))
                 } else {
                     return@withContext Success(response.message)
+                }
+            } catch (e: NetworkException) {
+                return@withContext Error(e)
+            } catch (e: ApiException) {
+                return@withContext Error(e)
+            }
+        }
+    }
+
+    override suspend fun getSubjects(forceUpdate: Boolean): Result<*> {
+        return withContext(ioDispatcher) {
+            if (!forceUpdate) {
+                if (cachedSubjects != null) {
+                    return@withContext Success(cachedSubjects)
+                }
+            }
+            try {
+                val response = subjectsRemoteDataSource.getSubjects()
+                if (response.error) {
+                    return@withContext Error(Exception(response.message))
+                } else {
+                    val subjects = response.subjects
+                    cachedSubjects?.toMutableList()?.clear()
+                    cachedSubjects = subjects
+                    return@withContext Success(cachedSubjects)
                 }
             } catch (e: NetworkException) {
                 return@withContext Error(e)

@@ -3,12 +3,10 @@ package com.vaibhavdhunde.app.elearning.application
 import android.app.Application
 import com.vaibhavdhunde.app.elearning.api.ElearningApi
 import com.vaibhavdhunde.app.elearning.api.NetworkInterceptor
-import com.vaibhavdhunde.app.elearning.data.DefaultElearningRepository
-import com.vaibhavdhunde.app.elearning.data.ElearningRepository
-import com.vaibhavdhunde.app.elearning.data.UsersLocalDataSource
-import com.vaibhavdhunde.app.elearning.data.UsersRemoteDataSource
+import com.vaibhavdhunde.app.elearning.data.*
 import com.vaibhavdhunde.app.elearning.data.source.local.ElearningDatabase
 import com.vaibhavdhunde.app.elearning.data.source.local.IUsersLocalDataSource
+import com.vaibhavdhunde.app.elearning.data.source.remote.ISubjectsRemoteDataSource
 import com.vaibhavdhunde.app.elearning.data.source.remote.IUsersRemoteDataSource
 import com.vaibhavdhunde.app.elearning.util.ViewModelFactory
 import org.kodein.di.Kodein
@@ -29,8 +27,9 @@ class ElearningApplication : Application(), KodeinAware {
         bind() from singleton { instance<ElearningDatabase>().usersDao() }
         bind<UsersLocalDataSource>() with singleton { IUsersLocalDataSource(instance()) }
         bind<UsersRemoteDataSource>() with singleton { IUsersRemoteDataSource(instance()) }
+        bind<SubjectsRemoteDataSource>() with singleton { ISubjectsRemoteDataSource(instance()) }
         bind<ElearningRepository>() with singleton {
-            DefaultElearningRepository(instance(), instance())
+            DefaultElearningRepository(instance(), instance(), instance())
         }
         bind() from provider { ViewModelFactory(instance()) }
     }

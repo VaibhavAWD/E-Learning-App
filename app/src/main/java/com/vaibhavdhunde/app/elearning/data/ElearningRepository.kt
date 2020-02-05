@@ -14,6 +14,8 @@ interface ElearningRepository {
 
     suspend fun deactivateAccount(): Result<*>
 
+    suspend fun getSubjects(forceUpdate: Boolean = false): Result<*>
+
     suspend fun getUser(): Result<User>
 
     suspend fun saveUser(user: User)

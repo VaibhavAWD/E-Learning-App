@@ -3,8 +3,10 @@ package com.vaibhavdhunde.app.elearning.data
 import com.google.common.truth.Truth.assertThat
 import com.vaibhavdhunde.app.elearning.data.Result.Error
 import com.vaibhavdhunde.app.elearning.data.Result.Success
+import com.vaibhavdhunde.app.elearning.data.entities.Subject
 import com.vaibhavdhunde.app.elearning.data.entities.User
 import com.vaibhavdhunde.app.elearning.data.source.local.FakeUsersLocalDataSource
+import com.vaibhavdhunde.app.elearning.data.source.remote.FakeSubjectsRemoteDataSource
 import com.vaibhavdhunde.app.elearning.data.source.remote.FakeUsersRemoteDataSource
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
@@ -25,6 +27,9 @@ class ElearningRepositoryTest {
     // Use fake users remote data source for testing
     private lateinit var usersRemoteDataSource: FakeUsersRemoteDataSource
 
+    // Use fake subjects remote data source for testing
+    private lateinit var subjectsRemoteDataSource: FakeSubjectsRemoteDataSource
+
     // test user data
     private val testUser = User(
         1,
@@ -37,11 +42,31 @@ class ElearningRepositoryTest {
     )
     private val testNewName = "Test Name**"
 
+    // test subject data
+    private val testSubject1 = Subject(
+        1,
+        "Test Subject1 ",
+        "Test subtitle 1",
+        "https://testapi.com/image1.jpg"
+    )
+    private val testSubject2 = Subject(
+        2,
+        "Test Subject 2",
+        "Test subtitle 2",
+        "https://testapi.com/image2.jpg"
+    )
+    private val remoteSubjects = listOf(testSubject1, testSubject2)
+
     @Before
     fun setUp() {
         usersLocalDataSource = FakeUsersLocalDataSource()
         usersRemoteDataSource = FakeUsersRemoteDataSource()
-        repository = DefaultElearningRepository(usersLocalDataSource, usersRemoteDataSource)
+        subjectsRemoteDataSource = FakeSubjectsRemoteDataSource()
+        repository = DefaultElearningRepository(
+            usersLocalDataSource,
+            usersRemoteDataSource,
+            subjectsRemoteDataSource
+        )
     }
 
     @Test
@@ -179,6 +204,63 @@ class ElearningRepositoryTest {
         val result = repository.deactivateAccount()
 
         // THEN - verify that the result is success
+        assertThat(result).isInstanceOf(Error::class.java)
+    }
+
+    @Test
+    fun getSubjects_emptyCache_subjectsLoadedFromRemote() = runBlocking {
+        // GIVEN - remote has subjects
+        subjectsRemoteDataSource.subjects = remoteSubjects
+
+        // WHEN - getting subjects
+        val result = repository.getSubjects()
+
+        // THEN - verify that the subjects are loaded from remote
+        assertThat(result.succeeded).isTrue()
+        val subjects = (result as Success).data
+        assertThat(subjects).isEqualTo(remoteSubjects)
+    }
+
+    @Test
+    fun getSubjects_repositoryCachesAfterRemote() = runBlocking {
+        // remote has subjects
+        subjectsRemoteDataSource.subjects = remoteSubjects
+
+        // GIVEN - initial subjects
+        val initial = (repository.getSubjects() as Success).data
+
+        // WHEN - getting subjects
+        val second = (repository.getSubjects() as Success).data
+
+        // THEN - verify that the initial and second is same as now subjects are cached
+        assertThat(initial).isEqualTo(second)
+    }
+
+    @Test
+    fun getSubjects_forceUpdate_repositoryCachesAfterRemote() = runBlocking {
+        // remote has subjects
+        subjectsRemoteDataSource.subjects = listOf(testSubject1)
+
+        // GIVEN - initial subjects
+        val initial = (repository.getSubjects() as Success).data
+
+        // WHEN - getting subjects with force update
+        subjectsRemoteDataSource.subjects = listOf(testSubject1, testSubject2)
+        val second = (repository.getSubjects(true) as Success).data
+
+        // THEN - verify that the initial and second are not same as now subjects are forced from remote
+        assertThat(initial).isNotEqualTo(second)
+    }
+
+    @Test
+    fun getSubjects_error() = runBlocking {
+        // GIVEN - remote returns error
+        subjectsRemoteDataSource.setShouldReturnError(true)
+
+        // WHEN - getting subjects
+        val result = repository.getSubjects(true)
+
+        // THEN - verify that the result is error
         assertThat(result).isInstanceOf(Error::class.java)
     }
 

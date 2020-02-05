@@ -2,17 +2,34 @@ package com.vaibhavdhunde.app.elearning.data
 
 import com.vaibhavdhunde.app.elearning.data.Result.Error
 import com.vaibhavdhunde.app.elearning.data.Result.Success
+import com.vaibhavdhunde.app.elearning.data.entities.Subject
 import com.vaibhavdhunde.app.elearning.data.entities.User
 
 class FakeElearningRepository : ElearningRepository {
 
     private var user: User? = null
 
+    private var subjects: List<Subject>? = null
+
     private var shouldReturnError = false
 
     fun setShouldReturnError(value: Boolean) {
         shouldReturnError = value
     }
+
+    // test subject data
+    private val testSubject1 = Subject(
+        1,
+        "Test Subject1 ",
+        "Test subtitle 1",
+        "https://testapi.com/image1.jpg"
+    )
+    private val testSubject2 = Subject(
+        2,
+        "Test Subject 2",
+        "Test subtitle 2",
+        "https://testapi.com/image2.jpg"
+    )
 
     override suspend fun loginUser(email: String, password: String): Result<*> {
         return if (shouldReturnError) {
@@ -52,6 +69,15 @@ class FakeElearningRepository : ElearningRepository {
             Error(Exception("Test exception"))
         } else {
             Success("Success")
+        }
+    }
+
+    override suspend fun getSubjects(forceUpdate: Boolean): Result<*> {
+        return if (shouldReturnError) {
+            Error(Exception("Test exception"))
+        } else {
+            subjects?.let { return Success(it) }
+            Success(listOf(testSubject1, testSubject2))
         }
     }
 
