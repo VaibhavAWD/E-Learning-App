@@ -109,11 +109,11 @@ class SubjectsViewModelTest {
     }
 
     @Test
-    fun openTopic_setsEvent() {
+    fun openTopics_setsEvent() {
         // WHEN - opening topic
-        subjectsViewModel.openTopic(1)
+        subjectsViewModel.openTopics(1)
 
         // THEN - verify that topic event is set
-        assertLiveDataEventTriggered(subjectsViewModel.topicEvent, 1)
+        assertLiveDataEventTriggered(subjectsViewModel.topicsEvent, 1)
     }
 }

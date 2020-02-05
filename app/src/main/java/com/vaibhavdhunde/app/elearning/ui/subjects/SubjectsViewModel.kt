@@ -20,11 +20,11 @@ class SubjectsViewModel(private val repository: ElearningRepository) : ViewModel
     private val _dataLoading = MutableLiveData<Boolean>()
     val dataLoading: LiveData<Boolean> = _dataLoading
 
-    private val _showMessageEvent = MutableLiveData<Event<Any>>()
-    val showMessageEvent: LiveData<Event<Any>> = _showMessageEvent
+    private val _showMessageEvent = MutableLiveData<Event<String>>()
+    val showMessageEvent: LiveData<Event<String>> = _showMessageEvent
 
-    private val _topicEvent = MutableLiveData<Event<Long>>()
-    val topicEvent: LiveData<Event<Long>> = _topicEvent
+    private val _topicsEvent = MutableLiveData<Event<Long>>()
+    val topicsEvent: LiveData<Event<Long>> = _topicsEvent
 
     fun loadSubjects(forceUpdate: Boolean = false) {
         _dataLoading.value = true
@@ -41,8 +41,8 @@ class SubjectsViewModel(private val repository: ElearningRepository) : ViewModel
         }
     }
 
-    fun openTopic(topicId: Long) {
-        _topicEvent.value = Event(topicId)
+    fun openTopics(subjectId: Long) {
+        _topicsEvent.value = Event(subjectId)
     }
 
 }

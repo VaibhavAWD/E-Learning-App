@@ -12,6 +12,7 @@
     <string name="error_empty_new_password">Please enter New Password</string>
 
     <!--  Nav View  -->
+    <string name="nav_study">Study</string>
     <string name="nav_profile">Profile</string>
 
     <!-- Login Activity  -->
@@ -42,5 +43,12 @@
     <string name="label_change_password">Change Password</string>
     <string name="hint_new_password">New Password</string>
     <string name="update_password">Update Password</string>
+
+    <!--  Subjects Fragment  -->
+    <string name="label_subjects">Subjects</string>
+    <string name="no_subjects">No Subjects</string>
+
+    <!--  Topics Fragment  -->
+    <string name="label_topics">Topics</string>
 
 </resources>

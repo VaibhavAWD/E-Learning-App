@@ -14,7 +14,7 @@
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.vaibhavdhunde.app.elearning.ui.profile.ProfileFragment"
-        android:label="@string/label_profile" >
+        android:label="@string/label_profile">
         <action
             android:id="@+id/actionChangePassword"
             app:destination="@id/changePasswordFragment" />
@@ -25,5 +25,24 @@
         android:name="com.vaibhavdhunde.app.elearning.ui.changepassword.ChangePasswordFragment"
         android:label="@string/label_change_password"
         tools:layout="@layout/fragment_change_password" />
+
+    <fragment
+        android:id="@+id/subjectsFragment"
+        android:name="com.vaibhavdhunde.app.elearning.ui.subjects.SubjectsFragment"
+        android:label="@string/label_subjects" >
+        <action
+            android:id="@+id/actionOpenTopics"
+            app:destination="@id/topicsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/topicsFragment"
+        android:name="com.vaibhavdhunde.app.elearning.ui.topics.TopicsFragment"
+        android:label="@string/label_topics"
+        tools:layout="@layout/fragment_topics">
+        <argument
+            android:name="subject_id"
+            app:argType="long" />
+    </fragment>
 
 </navigation>
