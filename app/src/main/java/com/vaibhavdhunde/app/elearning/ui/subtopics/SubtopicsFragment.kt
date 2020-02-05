@@ -13,7 +13,6 @@ import com.vaibhavdhunde.app.elearning.util.ViewModelFactory
 import com.vaibhavdhunde.app.elearning.util.obtainViewModel
 import com.vaibhavdhunde.app.elearning.util.snackbar
 import kotlinx.android.synthetic.main.fragment_subtopics.*
-import kotlinx.android.synthetic.main.fragment_topics.refresh
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.kodein
 import org.kodein.di.generic.instance
@@ -47,15 +46,14 @@ class SubtopicsFragment : Fragment(), KodeinAware {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        setupRefresh()
+        setupRetry()
         setupEvents()
         setupNavigation()
         loadSubtopics()
     }
 
-    private fun setupRefresh() {
-        refresh.setOnRefreshListener {
-            refresh.isRefreshing = false
+    private fun setupRetry() {
+        btn_retry.setOnClickListener {
             loadSubtopics()
         }
     }

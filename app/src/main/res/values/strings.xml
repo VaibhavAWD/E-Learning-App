@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">E-Learning</string>
 
+    <string name="retry">Retry</string>
+
     <!--  Input Fields Error Messages  -->
     <string name="error_empty_name">Please enter Name</string>
     <string name="error_empty_email">Please enter Email</string>

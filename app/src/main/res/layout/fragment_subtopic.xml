@@ -32,6 +32,32 @@
 
         </FrameLayout>
 
+        <LinearLayout
+            android:id="@+id/no_data_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:visibility="@{viewmodel.dataAvailable ? View.GONE : View.VISIBLE}">
+
+            <TextView
+                android:id="@+id/no_data_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/no_data"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_retry"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/retry" />
+
+        </LinearLayout>
+
         <ScrollView
             android:id="@+id/subtopic_scroll_container"
             android:layout_width="match_parent"
@@ -76,15 +102,6 @@
             </LinearLayout>
 
         </ScrollView>
-
-        <TextView
-            android:id="@+id/no_data"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:padding="16dp"
-            android:text="@string/no_data"
-            android:visibility="@{viewmodel.dataAvailable ? View.GONE : View.VISIBLE}" />
 
     </LinearLayout>
 

@@ -46,15 +46,14 @@ class TopicsFragment : Fragment(), KodeinAware {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        setupRefresh()
+        setupRetry()
         setupEvents()
         setupNavigation()
         loadTopics()
     }
 
-    private fun setupRefresh() {
-        refresh.setOnRefreshListener {
-            refresh.isRefreshing = false
+    private fun setupRetry() {
+        btn_retry.setOnClickListener {
             loadTopics()
         }
     }

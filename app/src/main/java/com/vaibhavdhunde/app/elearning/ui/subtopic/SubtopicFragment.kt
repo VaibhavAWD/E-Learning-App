@@ -44,8 +44,15 @@ class SubtopicFragment : Fragment(), KodeinAware {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        setupRetry()
         setupEvents()
         loadSubtopic()
+    }
+
+    private fun setupRetry() {
+        btn_retry.setOnClickListener {
+            loadSubtopic()
+        }
     }
 
     private fun setupEvents() {

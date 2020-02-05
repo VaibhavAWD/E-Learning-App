@@ -15,13 +15,4 @@ object SubjectsBindings {
             subjects?.let { submitList(it) }
         }
     }
-
-    @JvmStatic
-    @BindingAdapter("android:onRefresh")
-    fun ScrollChildSwipeRefreshLayout.setSwipeRefreshLayoutOnRefreshListener(subjectsViewModel: SubjectsViewModel) {
-        setOnRefreshListener {
-            refresh.isRefreshing = false
-            subjectsViewModel.loadSubjects(true)
-        }
-    }
 }
