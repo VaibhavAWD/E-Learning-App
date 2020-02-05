@@ -1,16 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/fragment_subtopic"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.subtopic.SubtopicFragment">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="@string/label_subtopic"
-        android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+    <data>
 
-</FrameLayout>
+        <import type="android.view.View" />
+
+        <variable
+            name="viewmodel"
+            type="com.vaibhavdhunde.app.elearning.ui.subtopic.SubtopicViewModel" />
+    </data>
+
+    <LinearLayout
+        android:id="@+id/fragment_subtopic"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:id="@+id/progress_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="@{viewmodel.dataLoading ? View.VISIBLE : View.GONE}"
+            tools:visibility="gone">
+
+            <ProgressBar
+                android:id="@+id/progress_indicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center" />
+
+        </FrameLayout>
+
+        <ScrollView
+            android:id="@+id/subtopic_scroll_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true">
+
+            <LinearLayout
+                android:id="@+id/subtopic_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="@{viewmodel.dataAvailable ? View.VISIBLE : View.GONE}">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="240dp"
+                    android:background="@android:color/darker_gray" />
+
+                <TextView
+                    android:id="@+id/subtopic_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:text="@{viewmodel.subtopic.title}"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    tools:text="Test Subtopic for Topic XYZ" />
+
+                <TextView
+                    android:id="@+id/subtopic_body"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:paddingBottom="24dp"
+                    android:text="@{viewmodel.subtopic.body}"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    tools:text="@tools:sample/lorem/random" />
+
+            </LinearLayout>
+
+        </ScrollView>
+
+        <TextView
+            android:id="@+id/no_data"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:padding="16dp"
+            android:text="@string/no_data"
+            android:visibility="@{viewmodel.dataAvailable ? View.GONE : View.VISIBLE}" />
+
+    </LinearLayout>
+
+</layout>
