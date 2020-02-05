@@ -4,10 +4,12 @@ import com.google.common.truth.Truth.assertThat
 import com.vaibhavdhunde.app.elearning.data.Result.Error
 import com.vaibhavdhunde.app.elearning.data.Result.Success
 import com.vaibhavdhunde.app.elearning.data.entities.Subject
+import com.vaibhavdhunde.app.elearning.data.entities.Subtopic
 import com.vaibhavdhunde.app.elearning.data.entities.Topic
 import com.vaibhavdhunde.app.elearning.data.entities.User
 import com.vaibhavdhunde.app.elearning.data.source.local.FakeUsersLocalDataSource
 import com.vaibhavdhunde.app.elearning.data.source.remote.FakeSubjectsRemoteDataSource
+import com.vaibhavdhunde.app.elearning.data.source.remote.FakeSubtopicsRemoteDataSource
 import com.vaibhavdhunde.app.elearning.data.source.remote.FakeTopicsRemoteDataSource
 import com.vaibhavdhunde.app.elearning.data.source.remote.FakeUsersRemoteDataSource
 import kotlinx.coroutines.runBlocking
@@ -34,6 +36,9 @@ class ElearningRepositoryTest {
 
     // Use fake topics remote data source for testing
     private lateinit var topicsRemoteDataSource: FakeTopicsRemoteDataSource
+
+    // Use fake subtopics remote data source for testing
+    private lateinit var subtopicsRemoteDataSource: FakeSubtopicsRemoteDataSource
 
     // test user data
     private val testUser = User(
@@ -77,17 +82,41 @@ class ElearningRepositoryTest {
     )
     private val remoteTopics = listOf(testTopic1, testTopic2)
 
+    // test subtopics data
+    private val testSubtopic1 = Subtopic(
+        1,
+        1,
+        "Test Subtopic 1",
+        "Test Body 1",
+        "https://test.com/url",
+        "https://test.com/image.jpg",
+        "2:44"
+    )
+
+    private val testSubtopic2 = Subtopic(
+        2,
+        1,
+        "Test Subtopic 2",
+        "Test Body 2",
+        "https://test.com/url2",
+        "https://test.com/image2.jpg",
+        "3:17"
+    )
+    private val remoteSubtopics = listOf(testSubtopic1, testSubtopic2)
+
     @Before
     fun setUp() {
         usersLocalDataSource = FakeUsersLocalDataSource()
         usersRemoteDataSource = FakeUsersRemoteDataSource()
         subjectsRemoteDataSource = FakeSubjectsRemoteDataSource()
         topicsRemoteDataSource = FakeTopicsRemoteDataSource()
+        subtopicsRemoteDataSource = FakeSubtopicsRemoteDataSource()
         repository = DefaultElearningRepository(
             usersLocalDataSource,
             usersRemoteDataSource,
             subjectsRemoteDataSource,
-            topicsRemoteDataSource
+            topicsRemoteDataSource,
+            subtopicsRemoteDataSource
         )
     }
 
@@ -338,6 +367,63 @@ class ElearningRepositoryTest {
 
         // WHEN - getting topics
         val result = repository.getTopics(1, true)
+
+        // THEN - verify that the result is error
+        assertThat(result).isInstanceOf(Error::class.java)
+    }
+
+    @Test
+    fun getSubtopics_emptyCache_topicsLoadedFromRemote() = runBlocking {
+        // GIVEN - remote has subtopics
+        subtopicsRemoteDataSource.subtopics = remoteSubtopics
+
+        // WHEN - getting subtopics
+        val result = repository.getSubtopics(1)
+
+        // THEN - verify that the subtopics are loaded from remote
+        assertThat(result.succeeded).isTrue()
+        val subjects = (result as Success).data
+        assertThat(subjects).isEqualTo(remoteSubtopics)
+    }
+
+    @Test
+    fun getSubtopics_repositoryCachesAfterRemote() = runBlocking {
+        // remote has subtopics
+        subtopicsRemoteDataSource.subtopics = remoteSubtopics
+
+        // GIVEN - initial subtopics
+        val initial = (repository.getSubtopics(1) as Success).data
+
+        // WHEN - getting topics
+        val second = (repository.getSubtopics(1) as Success).data
+
+        // THEN - verify that the initial and second is same as now subtopics are cached
+        assertThat(initial).isEqualTo(second)
+    }
+
+    @Test
+    fun getSubtopics_forceUpdate_repositoryCachesAfterRemote() = runBlocking {
+        // remote has subtopics
+        subtopicsRemoteDataSource.subtopics = listOf(testSubtopic1)
+
+        // GIVEN - initial subtopics
+        val initial = (repository.getSubtopics(1) as Success).data
+
+        // WHEN - getting subtopics with force update
+        subtopicsRemoteDataSource.subtopics = listOf(testSubtopic1, testSubtopic2)
+        val second = (repository.getSubtopics(1, true) as Success).data
+
+        // THEN - verify that the initial and second are not same as now subtopics are forced from remote
+        assertThat(initial).isNotEqualTo(second)
+    }
+
+    @Test
+    fun getSubtopics_error() = runBlocking {
+        // GIVEN - remote returns error
+        subtopicsRemoteDataSource.setShouldReturnError(true)
+
+        // WHEN - getting subtopics
+        val result = repository.getSubtopics(1, true)
 
         // THEN - verify that the result is error
         assertThat(result).isInstanceOf(Error::class.java)

@@ -7,6 +7,7 @@ import com.vaibhavdhunde.app.elearning.data.*
 import com.vaibhavdhunde.app.elearning.data.source.local.ElearningDatabase
 import com.vaibhavdhunde.app.elearning.data.source.local.IUsersLocalDataSource
 import com.vaibhavdhunde.app.elearning.data.source.remote.ISubjectsRemoteDataSource
+import com.vaibhavdhunde.app.elearning.data.source.remote.ISubtopicsRemoteDataSource
 import com.vaibhavdhunde.app.elearning.data.source.remote.ITopicsRemoteDataSource
 import com.vaibhavdhunde.app.elearning.data.source.remote.IUsersRemoteDataSource
 import com.vaibhavdhunde.app.elearning.util.ViewModelFactory
@@ -30,8 +31,9 @@ class ElearningApplication : Application(), KodeinAware {
         bind<UsersRemoteDataSource>() with singleton { IUsersRemoteDataSource(instance()) }
         bind<SubjectsRemoteDataSource>() with singleton { ISubjectsRemoteDataSource(instance()) }
         bind<TopicsRemoteDataSource>() with singleton { ITopicsRemoteDataSource(instance()) }
+        bind<SubtopicsRemoteDataSource>() with singleton { ISubtopicsRemoteDataSource(instance()) }
         bind<ElearningRepository>() with singleton {
-            DefaultElearningRepository(instance(), instance(), instance(), instance())
+            DefaultElearningRepository(instance(), instance(), instance(), instance(), instance())
         }
         bind() from provider { ViewModelFactory(instance()) }
     }

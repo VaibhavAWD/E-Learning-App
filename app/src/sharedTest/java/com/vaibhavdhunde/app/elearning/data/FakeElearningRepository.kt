@@ -3,6 +3,7 @@ package com.vaibhavdhunde.app.elearning.data
 import com.vaibhavdhunde.app.elearning.data.Result.Error
 import com.vaibhavdhunde.app.elearning.data.Result.Success
 import com.vaibhavdhunde.app.elearning.data.entities.Subject
+import com.vaibhavdhunde.app.elearning.data.entities.Subtopic
 import com.vaibhavdhunde.app.elearning.data.entities.Topic
 import com.vaibhavdhunde.app.elearning.data.entities.User
 
@@ -17,6 +18,10 @@ class FakeElearningRepository : ElearningRepository {
     var topics: List<Topic> = emptyList()
 
     private var cachedTopics: MutableList<Topic>? = null
+
+    var subtopics: List<Subtopic> = emptyList()
+
+    private var cachedSubtopics: MutableList<Subtopic>? = null
 
     private var shouldReturnError = false
 
@@ -88,6 +93,19 @@ class FakeElearningRepository : ElearningRepository {
             cachedTopics?.clear()
             cachedTopics = topics.toMutableList()
             Success(cachedTopics!!.toList())
+        }
+    }
+
+    override suspend fun getSubtopics(topicId: Long, forceUpdate: Boolean): Result<List<Subtopic>> {
+        return if (shouldReturnError) {
+            Error(Exception("Test exception"))
+        } else {
+            if (!forceUpdate) {
+                cachedSubtopics?.let { return Success(it.toList()) }
+            }
+            cachedSubtopics?.clear()
+            cachedSubtopics = subtopics.toMutableList()
+            Success(cachedSubtopics!!.toList())
         }
     }
 

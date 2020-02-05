@@ -5,6 +5,7 @@ import com.vaibhavdhunde.app.elearning.api.NetworkException
 import com.vaibhavdhunde.app.elearning.data.Result.Error
 import com.vaibhavdhunde.app.elearning.data.Result.Success
 import com.vaibhavdhunde.app.elearning.data.entities.Subject
+import com.vaibhavdhunde.app.elearning.data.entities.Subtopic
 import com.vaibhavdhunde.app.elearning.data.entities.Topic
 import com.vaibhavdhunde.app.elearning.data.entities.User
 import kotlinx.coroutines.CoroutineDispatcher
@@ -16,6 +17,7 @@ class DefaultElearningRepository(
     private val usersRemoteDataSource: UsersRemoteDataSource,
     private val subjectsRemoteDataSource: SubjectsRemoteDataSource,
     private val topicsRemoteDataSource: TopicsRemoteDataSource,
+    private val subtopicsRemoteDataSource: SubtopicsRemoteDataSource,
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : ElearningRepository {
 
@@ -24,6 +26,8 @@ class DefaultElearningRepository(
     private var cachedSubjects: List<Subject>? = null
 
     private var cachedTopics: List<Topic>? = null
+
+    private var cachedSubtopics: List<Subtopic>? = null
 
     override suspend fun loginUser(email: String, password: String): Result<*> {
         return withContext(ioDispatcher) {
@@ -159,6 +163,31 @@ class DefaultElearningRepository(
                     cachedTopics?.toMutableList()?.clear()
                     cachedTopics = topics
                     return@withContext Success(cachedTopics!!)
+                }
+            } catch (e: NetworkException) {
+                return@withContext Error(e)
+            } catch (e: ApiException) {
+                return@withContext Error(e)
+            }
+        }
+    }
+
+    override suspend fun getSubtopics(topicId: Long, forceUpdate: Boolean): Result<List<Subtopic>> {
+        return withContext(ioDispatcher) {
+            if (!forceUpdate) {
+                if (cachedSubtopics != null) {
+                    return@withContext Success(cachedSubtopics!!)
+                }
+            }
+            try {
+                val response = subtopicsRemoteDataSource.getSubtopics(topicId)
+                if (response.error) {
+                    return@withContext Error(Exception(response.message))
+                } else {
+                    val subtopics = response.subtopics
+                    cachedSubtopics?.toMutableList()?.clear()
+                    cachedSubtopics = subtopics
+                    return@withContext Success(cachedSubtopics!!)
                 }
             } catch (e: NetworkException) {
                 return@withContext Error(e)
