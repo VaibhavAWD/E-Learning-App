@@ -1,16 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/fragment_subtopics"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.subtopics.SubtopicsFragment">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="@string/label_subtopics"
-        android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+    <data>
 
-</FrameLayout>
+        <import type="android.view.View" />
+
+        <import type="android.widget.LinearLayout" />
+
+        <variable
+            name="viewmodel"
+            type="com.vaibhavdhunde.app.elearning.ui.subtopics.SubtopicsViewModel" />
+
+        <variable
+            name="adapter"
+            type="com.vaibhavdhunde.app.elearning.ui.subtopics.SubtopicsListAdapter" />
+    </data>
+
+    <com.vaibhavdhunde.app.elearning.util.ScrollChildSwipeRefreshLayout
+        android:id="@+id/refresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.subjects.SubjectsFragment">
+
+        <LinearLayout
+            android:id="@+id/fragment_subtopics"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:id="@+id/progress_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="@{viewmodel.dataLoading ? View.VISIBLE : View.GONE}"
+                tools:visibility="gone">
+
+                <ProgressBar
+                    android:id="@+id/progress_indicator"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center" />
+
+            </FrameLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/list_subtopics"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:scrollbarStyle="outsideOverlay"
+                android:scrollbars="vertical"
+                android:visibility="@{viewmodel.empty ? View.GONE : View.VISIBLE}"
+                app:adapter="@{adapter}"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:subtopics="@{viewmodel.subtopics}"
+                tools:listitem="@layout/item_subtopic" />
+
+            <TextView
+                android:id="@+id/no_subtopics"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:padding="16dp"
+                android:text="@string/no_subtopics"
+                android:visibility="@{viewmodel.empty ? View.VISIBLE : View.GONE}" />
+
+        </LinearLayout>
+
+    </com.vaibhavdhunde.app.elearning.util.ScrollChildSwipeRefreshLayout>
+
+</layout>

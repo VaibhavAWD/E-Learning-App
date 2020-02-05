@@ -29,7 +29,7 @@
     <fragment
         android:id="@+id/subjectsFragment"
         android:name="com.vaibhavdhunde.app.elearning.ui.subjects.SubjectsFragment"
-        android:label="@string/label_subjects" >
+        android:label="@string/label_subjects">
         <action
             android:id="@+id/actionOpenTopics"
             app:destination="@id/topicsFragment" />
@@ -52,9 +52,22 @@
         android:id="@+id/subtopicsFragment"
         android:name="com.vaibhavdhunde.app.elearning.ui.subtopics.SubtopicsFragment"
         android:label="@string/label_subtopics"
-        tools:layout="@layout/fragment_subtopics" >
+        tools:layout="@layout/fragment_subtopics">
         <argument
             android:name="topic_id"
+            app:argType="long" />
+        <action
+            android:id="@+id/actionOpenSubtopic"
+            app:destination="@id/subtopicFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/subtopicFragment"
+        android:name="com.vaibhavdhunde.app.elearning.ui.subtopic.SubtopicFragment"
+        android:label="@string/label_subtopic"
+        tools:layout="@layout/fragment_subtopic">
+        <argument
+            android:name="subtopic_id"
             app:argType="long" />
     </fragment>
 

@@ -54,5 +54,9 @@
 
     <!-- Subtopics Fragment -->
     <string name="label_subtopics">Subtopics</string>
+    <string name="no_subtopics">No Subtopics</string>
+
+    <!-- Subtopic Fragment -->
+    <string name="label_subtopic">Subtopic</string>
 
 </resources>
