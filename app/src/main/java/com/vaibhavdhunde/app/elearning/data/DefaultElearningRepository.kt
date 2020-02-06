@@ -19,6 +19,7 @@ class DefaultElearningRepository(
     private val topicsRemoteDataSource: TopicsRemoteDataSource,
     private val subtopicsRemoteDataSource: SubtopicsRemoteDataSource,
     private val feedbacksRemoteDataSource: FeedbacksRemoteDataSource,
+    private val reportsRemoteDataSource: ReportsRemoteDataSource,
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : ElearningRepository {
 
@@ -190,6 +191,23 @@ class DefaultElearningRepository(
         return withContext(ioDispatcher) {
             try {
                 val response = feedbacksRemoteDataSource.addFeedback(message, cachedUser!!.api_key)
+                if (response.error) {
+                    return@withContext Error(Exception(response.message))
+                } else {
+                    return@withContext Success(response.message)
+                }
+            } catch (e: NetworkException) {
+                return@withContext Error(e)
+            } catch (e: ApiException) {
+                return@withContext Error(e)
+            }
+        }
+    }
+
+    override suspend fun sendReport(message: String): Result<String> {
+        return withContext(ioDispatcher) {
+            try {
+                val response = reportsRemoteDataSource.addReport(message, cachedUser!!.api_key)
                 if (response.error) {
                     return@withContext Error(Exception(response.message))
                 } else {

@@ -40,6 +40,9 @@ class ElearningRepositoryTest {
     // Use fake feedbacks remote data source for testing
     private lateinit var feedbacksRemoteDataSource: FakeFeedbacksRemoteDataSource
 
+    // Use fake reports remote data source for testing
+    private lateinit var reportsRemoteDataSource: FakeReportsRemoteDataSource
+
     // test user data
     private val testUser = User(
         1,
@@ -112,13 +115,15 @@ class ElearningRepositoryTest {
         topicsRemoteDataSource = FakeTopicsRemoteDataSource()
         subtopicsRemoteDataSource = FakeSubtopicsRemoteDataSource()
         feedbacksRemoteDataSource = FakeFeedbacksRemoteDataSource()
+        reportsRemoteDataSource = FakeReportsRemoteDataSource()
         repository = DefaultElearningRepository(
             usersLocalDataSource,
             usersRemoteDataSource,
             subjectsRemoteDataSource,
             topicsRemoteDataSource,
             subtopicsRemoteDataSource,
-            feedbacksRemoteDataSource
+            feedbacksRemoteDataSource,
+            reportsRemoteDataSource
         )
     }
 
@@ -395,6 +400,35 @@ class ElearningRepositoryTest {
 
         // WHEN - sending feedback
         val result = repository.sendFeedback("")
+
+        // THEN - verify that the result is success
+        assertThat(result.succeeded).isFalse()
+    }
+
+    @Test
+    fun sendReport_success() = runBlocking {
+        // GIVEN - initially repository loads user
+        usersLocalDataSource.saveUser(testUser)
+        repository.getUser()
+
+        // WHEN - sending report
+        val result = repository.sendReport("")
+
+        // THEN - verify that the result is success
+        assertThat(result.succeeded).isTrue()
+    }
+
+    @Test
+    fun sendReport_error() = runBlocking {
+        // initially repository loads user
+        usersLocalDataSource.saveUser(testUser)
+        repository.getUser()
+
+        // GIVEN - remote data source returns error
+        reportsRemoteDataSource.setShouldReturnError(true)
+
+        // WHEN - sending report
+        val result = repository.sendReport("")
 
         // THEN - verify that the result is success
         assertThat(result.succeeded).isFalse()

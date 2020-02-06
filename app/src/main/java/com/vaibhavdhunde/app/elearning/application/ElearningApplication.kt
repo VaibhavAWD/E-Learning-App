@@ -30,9 +30,10 @@ class ElearningApplication : Application(), KodeinAware {
         bind<TopicsRemoteDataSource>() with singleton { ITopicsRemoteDataSource(instance()) }
         bind<SubtopicsRemoteDataSource>() with singleton { ISubtopicsRemoteDataSource(instance()) }
         bind<FeedbacksRemoteDataSource>() with singleton { IFeedbacksRemoteDataSource(instance()) }
+        bind<ReportsRemoteDataSource>() with singleton { IReportsRemoteDataSource(instance()) }
         bind<ElearningRepository>() with singleton {
             DefaultElearningRepository(
-                instance(), instance(), instance(), instance(), instance(), instance()
+                instance(), instance(), instance(), instance(), instance(), instance(), instance()
             )
         }
         bind() from provider { ViewModelFactory(instance()) }

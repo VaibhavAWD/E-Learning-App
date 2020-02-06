@@ -27,6 +27,8 @@ interface ElearningRepository {
 
     suspend fun sendFeedback(message: String): Result<String>
 
+    suspend fun sendReport(message: String): Result<String>
+
     suspend fun getUser(): Result<User>
 
     suspend fun saveUser(user: User)

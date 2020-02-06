@@ -117,6 +117,14 @@ class FakeElearningRepository : ElearningRepository {
         }
     }
 
+    override suspend fun sendReport(message: String): Result<String> {
+        return if (shouldReturnError) {
+            Error(Exception("Test exception"))
+        } else {
+            Success("Success")
+        }
+    }
+
     override suspend fun saveUser(user: User) {
         this.user = user
     }
