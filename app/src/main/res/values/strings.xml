@@ -18,6 +18,7 @@
     <string name="nav_study">Study</string>
     <string name="nav_profile">Profile</string>
     <string name="nav_send_feedback">Send Feedback</string>
+    <string name="nav_report_issue">Report Issue</string>
 
     <!-- Login Activity  -->
     <string name="login">Login</string>
@@ -67,5 +68,9 @@
     <string name="label_feedback">Feedback</string>
     <string name="hint_message">Message</string>
     <string name="send_feedback">Send Feedback</string>
+
+    <!-- Report Fragment -->
+    <string name="label_report">Report</string>
+    <string name="submit_report">Submit Report</string>
 
 </resources>

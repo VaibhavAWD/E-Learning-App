@@ -13,4 +13,8 @@
         android:id="@+id/feedbackFragment"
         android:title="@string/nav_send_feedback" />
 
+    <item
+        android:id="@+id/reportFragment"
+        android:title="@string/nav_report_issue" />
+
 </menu>

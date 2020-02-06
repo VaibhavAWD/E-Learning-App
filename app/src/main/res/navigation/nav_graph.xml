@@ -76,4 +76,9 @@
         android:name="com.vaibhavdhunde.app.elearning.ui.feedback.FeedbackFragment"
         android:label="@string/label_feedback" />
 
+    <fragment
+        android:id="@+id/reportFragment"
+        android:name="com.vaibhavdhunde.app.elearning.ui.report.ReportFragment"
+        android:label="@string/label_report" />
+
 </navigation>
