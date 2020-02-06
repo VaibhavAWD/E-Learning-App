@@ -71,4 +71,9 @@
             app:argType="long" />
     </fragment>
 
+    <fragment
+        android:id="@+id/feedbackFragment"
+        android:name="com.vaibhavdhunde.app.elearning.ui.feedback.FeedbackFragment"
+        android:label="@string/label_feedback" />
+
 </navigation>

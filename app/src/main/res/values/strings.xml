@@ -17,6 +17,7 @@
     <!--  Nav View  -->
     <string name="nav_study">Study</string>
     <string name="nav_profile">Profile</string>
+    <string name="nav_send_feedback">Send Feedback</string>
 
     <!-- Login Activity  -->
     <string name="login">Login</string>
@@ -61,5 +62,10 @@
 
     <!-- Subtopic Fragment -->
     <string name="label_subtopic">Subtopic</string>
+
+    <!-- Feedback Fragment -->
+    <string name="label_feedback">Feedback</string>
+    <string name="hint_message">Message</string>
+    <string name="send_feedback">Send Feedback</string>
 
 </resources>

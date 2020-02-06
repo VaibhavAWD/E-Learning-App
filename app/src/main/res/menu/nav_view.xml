@@ -4,8 +4,13 @@
     <item
         android:id="@+id/subjectsFragment"
         android:title="@string/nav_study" />
+
     <item
         android:id="@+id/profileFragment"
         android:title="@string/nav_profile" />
+
+    <item
+        android:id="@+id/feedbackFragment"
+        android:title="@string/nav_send_feedback" />
 
 </menu>
