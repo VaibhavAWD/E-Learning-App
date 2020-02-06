@@ -1,16 +1,113 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/fragment_blog_details"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.blogdetails.BlogDetailsFragment">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="@string/label_blog_details"
-        android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+    <data>
 
-</FrameLayout>
+        <import type="android.view.View" />
+
+        <variable
+            name="viewmodel"
+            type="com.vaibhavdhunde.app.elearning.ui.blogdetails.BlogDetailsViewModel" />
+    </data>
+
+    <LinearLayout
+        android:id="@+id/fragment_blog_details"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:id="@+id/progress_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="@{viewmodel.dataLoading ? View.VISIBLE : View.GONE}"
+            tools:visibility="gone">
+
+            <ProgressBar
+                android:id="@+id/progress_indicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center" />
+
+        </FrameLayout>
+
+        <LinearLayout
+            android:id="@+id/no_data_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:visibility="@{viewmodel.dataAvailable ? View.GONE : View.VISIBLE}"
+            tools:visibility="gone">
+
+            <TextView
+                android:id="@+id/no_data_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/no_data"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_retry"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/retry" />
+
+        </LinearLayout>
+
+        <ScrollView
+            android:id="@+id/blog_details_scroll_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true">
+
+            <LinearLayout
+                android:id="@+id/blog_details_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="@{viewmodel.dataAvailable ? View.VISIBLE : View.GONE}">
+
+                <ImageView
+                    android:id="@+id/blog_details_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="240dp"
+                    android:background="@color/colorPrimary"
+                    android:scaleType="centerCrop"
+                    app:url="@{viewmodel.blog.image_url}" />
+
+                <TextView
+                    android:id="@+id/blog_details_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:text="@{viewmodel.blog.title}"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    tools:text="@tools:sample/lorem" />
+
+                <TextView
+                    android:id="@+id/blog_details_body"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:paddingBottom="24dp"
+                    android:text="@{viewmodel.blog.body}"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    tools:text="@tools:sample/lorem/random" />
+
+            </LinearLayout>
+
+        </ScrollView>
+
+    </LinearLayout>
+
+</layout>
