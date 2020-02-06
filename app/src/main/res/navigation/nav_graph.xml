@@ -81,4 +81,10 @@
         android:name="com.vaibhavdhunde.app.elearning.ui.report.ReportFragment"
         android:label="@string/label_report" />
 
+    <fragment
+        android:id="@+id/aboutFragment"
+        android:name="com.vaibhavdhunde.app.elearning.ui.about.AboutFragment"
+        android:label="@string/label_about_us"
+        tools:layout="@layout/fragment_about" />
+
 </navigation>

@@ -17,4 +17,8 @@
         android:id="@+id/reportFragment"
         android:title="@string/nav_report_issue" />
 
+    <item
+        android:id="@+id/aboutFragment"
+        android:title="@string/nav_about_us" />
+
 </menu>

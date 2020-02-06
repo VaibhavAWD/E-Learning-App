@@ -19,6 +19,7 @@
     <string name="nav_profile">Profile</string>
     <string name="nav_send_feedback">Send Feedback</string>
     <string name="nav_report_issue">Report Issue</string>
+    <string name="nav_about_us">About Us</string>
 
     <!-- Login Activity  -->
     <string name="login">Login</string>
@@ -72,5 +73,9 @@
     <!-- Report Fragment -->
     <string name="label_report">Report</string>
     <string name="submit_report">Submit Report</string>
+
+    <!--  About Fragment  -->
+    <string name="label_about_us">About Us</string>
+    <string name="about_matter">Welcome to E-learning app. This is a sample application for demonstration purpose. This app contains video tutorials for students where they can explore their subjects of interest and start studying and get most of it and be ready for exams.</string>
 
 </resources>
