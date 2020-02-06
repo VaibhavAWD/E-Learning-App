@@ -53,4 +53,5 @@ task clean(type: Delete) {
      retrofit_version = "2.7.1"
      kodein_version = "6.5.1"
      glide_version = "4.9.0"
+     exoplayer_version = "2.10.5"
  }

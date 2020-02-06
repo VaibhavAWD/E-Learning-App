@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.android.exoplayer2.source.MediaSource
 import com.vaibhavdhunde.app.elearning.data.ElearningRepository
 import com.vaibhavdhunde.app.elearning.data.Result.Error
 import com.vaibhavdhunde.app.elearning.data.Result.Success
@@ -24,6 +25,12 @@ class SubtopicViewModel(private val repository: ElearningRepository) : ViewModel
 
     private val _showMessageEvent = MutableLiveData<Event<String>>()
     val showMessageEvent: LiveData<Event<String>> = _showMessageEvent
+
+    private var playWhenReady: Boolean = true
+    private var currentWindow: Int = 0
+    private var playbackPosition: Long = 0
+
+    private var mediaSource: MediaSource? = null
 
     fun loadSubtopic(subtopicId: Long) {
         _dataLoading.value?.let { isLoading ->
@@ -46,6 +53,42 @@ class SubtopicViewModel(private val repository: ElearningRepository) : ViewModel
             }
             _dataLoading.value = false
         }
+    }
+
+    fun getSubtopic(): Subtopic {
+        return _subtopic.value!!
+    }
+
+    fun setPlayWhenReady(value: Boolean) {
+        playWhenReady = value
+    }
+
+    fun getPlayWhenReady(): Boolean {
+        return playWhenReady
+    }
+
+    fun setCurrentWindow(value: Int) {
+        currentWindow = value
+    }
+
+    fun getCurrentWindow(): Int {
+        return currentWindow
+    }
+
+    fun setPlaybackPosition(value: Long) {
+        playbackPosition = value
+    }
+
+    fun getPlaybackPosition(): Long {
+        return playbackPosition
+    }
+
+    fun setMediaSource(mediaSource: MediaSource) {
+        this.mediaSource = mediaSource
+    }
+
+    fun getMediaSource(): MediaSource? {
+        return mediaSource
     }
 
 }
