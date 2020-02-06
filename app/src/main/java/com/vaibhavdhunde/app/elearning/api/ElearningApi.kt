@@ -92,6 +92,20 @@ interface ElearningApi {
         @Header(AUTHORIZATION) apiKey: String
     ): Response<DefaultResponse>
 
+    /**
+     * Blogs Api
+     */
+    @GET("blogs")
+    suspend fun getBlogs(
+        @Header(AUTHORIZATION) apiKey: String
+    ): Response<BlogsResponse>
+
+    @GET("blogs/{id}")
+    suspend fun getBlog(
+        @Path("id") blogId: Long,
+        @Header(AUTHORIZATION) apiKey: String
+    ): Response<BlogResponse>
+
     companion object {
 
         private const val AUTHORIZATION = "Authorization"

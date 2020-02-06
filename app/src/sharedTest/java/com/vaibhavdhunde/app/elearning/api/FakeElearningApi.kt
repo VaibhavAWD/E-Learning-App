@@ -1,10 +1,7 @@
 package com.vaibhavdhunde.app.elearning.api
 
 import com.vaibhavdhunde.app.elearning.api.responses.*
-import com.vaibhavdhunde.app.elearning.data.entities.Subject
-import com.vaibhavdhunde.app.elearning.data.entities.Subtopic
-import com.vaibhavdhunde.app.elearning.data.entities.Topic
-import com.vaibhavdhunde.app.elearning.data.entities.User
+import com.vaibhavdhunde.app.elearning.data.entities.*
 import retrofit2.Response
 
 class FakeElearningApi : ElearningApi {
@@ -73,6 +70,24 @@ class FakeElearningApi : ElearningApi {
         "https://test.com/url2",
         "https://test.com/image2.jpg",
         "3:17"
+    )
+
+    // test blogs data
+    private val testBlog1 = Blog(
+        1,
+        1,
+        "Test Blog 1",
+        "Test Blog Body",
+        "https://test.com/image.jpg",
+        "created_at"
+    )
+    private val testBlog2 = Blog(
+        2,
+        1,
+        "Test Blog 2",
+        "Test Blog Body",
+        "https://test.com/image2.jpg",
+        "created_at"
     )
 
     override suspend fun loginUser(email: String, password: String): Response<AuthResponse> {
@@ -171,6 +186,22 @@ class FakeElearningApi : ElearningApi {
             Response.success(DefaultResponse(true, "Test exception"))
         } else {
             Response.success(DefaultResponse(false, "Success"))
+        }
+    }
+
+    override suspend fun getBlogs(apiKey: String): Response<BlogsResponse> {
+        return if (shouldReturnError) {
+            Response.success(BlogsResponse(true, "Test exception", null))
+        } else {
+            Response.success(BlogsResponse(false, null, listOf(testBlog1, testBlog2)))
+        }
+    }
+
+    override suspend fun getBlog(blogId: Long, apiKey: String): Response<BlogResponse> {
+        return if (shouldReturnError) {
+            Response.success(BlogResponse(true, "Test exception", null))
+        } else {
+            Response.success(BlogResponse(false, null, testBlog1))
         }
     }
 }
