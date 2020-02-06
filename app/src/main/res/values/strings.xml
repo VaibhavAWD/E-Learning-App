@@ -12,6 +12,7 @@
     <string name="error_empty_conf_password">Please re-enter Password</string>
     <string name="error_password_mismatch">Password does not match</string>
     <string name="error_empty_new_password">Please enter New Password</string>
+    <string name="error_empty_message">Please enter Message</string>
 
     <!--  Nav View  -->
     <string name="nav_study">Study</string>

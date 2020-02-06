@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.vaibhavdhunde.app.elearning.data.ElearningRepository
 import com.vaibhavdhunde.app.elearning.ui.changepassword.ChangePasswordViewModel
+import com.vaibhavdhunde.app.elearning.ui.feedback.FeedbackViewModel
 import com.vaibhavdhunde.app.elearning.ui.login.LoginViewModel
 import com.vaibhavdhunde.app.elearning.ui.main.MainViewModel
 import com.vaibhavdhunde.app.elearning.ui.profile.ProfileViewModel
@@ -40,6 +41,8 @@ class ViewModelFactory(private val repository: ElearningRepository) : ViewModelP
                     SubtopicsViewModel(repository)
                 isAssignableFrom(SubtopicViewModel::class.java) ->
                     SubtopicViewModel(repository)
+                isAssignableFrom(FeedbackViewModel::class.java) ->
+                    FeedbackViewModel(repository)
                 else -> throw IllegalArgumentException("Unknown model class: $modelClass")
             }
         } as T
