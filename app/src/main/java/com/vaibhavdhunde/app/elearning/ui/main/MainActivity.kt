@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity(), KodeinAware {
         navController = Navigation.findNavController(this, R.id.nav_host_fragment)
 
         appBarConfiguration = AppBarConfiguration(
-            setOf(R.id.dashboardFragment),
+            setOf(R.id.blogsFragment),
             drawer_layout
         )
 

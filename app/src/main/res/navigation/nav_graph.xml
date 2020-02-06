@@ -3,13 +3,27 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/dashboardFragment">
+    app:startDestination="@id/blogsFragment">
 
     <fragment
-        android:id="@+id/dashboardFragment"
-        android:name="com.vaibhavdhunde.app.elearning.DashboardFragment"
+        android:id="@+id/blogsFragment"
+        android:name="com.vaibhavdhunde.app.elearning.ui.blogs.BlogsFragment"
         android:label="@string/app_name"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_blogs">
+        <action
+            android:id="@+id/actionOpenBlogDetails"
+            app:destination="@id/blogDetailsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/blogDetailsFragment"
+        android:name="com.vaibhavdhunde.app.elearning.ui.blogdetails.BlogDetailsFragment"
+        android:label="@string/label_blog_details"
+        tools:layout="@layout/fragment_blog_details">
+        <argument
+            android:name="blog_id"
+            app:argType="long" />
+    </fragment>
 
     <fragment
         android:id="@+id/profileFragment"

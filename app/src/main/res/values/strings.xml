@@ -78,4 +78,10 @@
     <string name="label_about_us">About Us</string>
     <string name="about_matter">Welcome to E-learning app. This is a sample application for demonstration purpose. This app contains video tutorials for students where they can explore their subjects of interest and start studying and get most of it and be ready for exams.</string>
 
+    <!--  Blogs Fragment  -->
+    <string name="no_blogs">No Blogs</string>
+
+    <!-- Blog Details Fragment -->
+    <string name="label_blog_details">Blog Details</string>
+
 </resources>

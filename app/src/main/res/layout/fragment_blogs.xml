@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <import type="android.widget.LinearLayout" />
+
+        <variable
+            name="viewmodel"
+            type="com.vaibhavdhunde.app.elearning.ui.blogs.BlogsViewModel" />
+
+        <variable
+            name="adapter"
+            type="com.vaibhavdhunde.app.elearning.ui.blogs.BlogsListAdapter" />
+    </data>
+
+    <LinearLayout
+        android:id="@+id/fragment_blogs"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:id="@+id/progress_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="@{viewmodel.dataLoading ? View.VISIBLE : View.GONE}"
+            tools:visibility="gone">
+
+            <ProgressBar
+                android:id="@+id/progress_indicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center" />
+
+        </FrameLayout>
+
+        <LinearLayout
+            android:id="@+id/no_blogs_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:visibility="@{viewmodel.dataAvailable ? View.GONE : View.VISIBLE}"
+            tools:visibility="gone">
+
+            <TextView
+                android:id="@+id/no_blogs_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/no_blogs"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_retry"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:onClick="@{() -> viewmodel.loadBlogs()}"
+                android:text="@string/retry" />
+
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/list_blogs"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:scrollbarStyle="outsideOverlay"
+            android:scrollbars="vertical"
+            android:visibility="@{viewmodel.dataAvailable ? View.VISIBLE : View.GONE}"
+            app:adapter="@{adapter}"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:blogs="@{viewmodel.blogs}"
+            tools:listitem="@layout/item_subject" />
+
+    </LinearLayout>
+
+</layout>

@@ -1,4 +1,4 @@
-package com.vaibhavdhunde.app.elearning
+package com.vaibhavdhunde.app.elearning.ui.blogdetails
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -6,14 +6,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 
-class DashboardFragment : Fragment() {
+import com.vaibhavdhunde.app.elearning.R
+
+class BlogDetailsFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_dashboard, container, false)
+        return inflater.inflate(R.layout.fragment_blog_details, container, false)
     }
 
 
