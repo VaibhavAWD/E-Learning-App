@@ -7,6 +7,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 
 @BindingAdapter("app:url")
-fun setImage(iv: ImageView, url: String) {
+fun setImage(iv: ImageView, url: String?) {
     Glide.with(iv).load(url).into(iv)
 }
