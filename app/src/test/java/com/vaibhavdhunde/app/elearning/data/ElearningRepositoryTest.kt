@@ -8,10 +8,7 @@ import com.vaibhavdhunde.app.elearning.data.entities.Subtopic
 import com.vaibhavdhunde.app.elearning.data.entities.Topic
 import com.vaibhavdhunde.app.elearning.data.entities.User
 import com.vaibhavdhunde.app.elearning.data.source.local.FakeUsersLocalDataSource
-import com.vaibhavdhunde.app.elearning.data.source.remote.FakeSubjectsRemoteDataSource
-import com.vaibhavdhunde.app.elearning.data.source.remote.FakeSubtopicsRemoteDataSource
-import com.vaibhavdhunde.app.elearning.data.source.remote.FakeTopicsRemoteDataSource
-import com.vaibhavdhunde.app.elearning.data.source.remote.FakeUsersRemoteDataSource
+import com.vaibhavdhunde.app.elearning.data.source.remote.*
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
 
@@ -39,6 +36,9 @@ class ElearningRepositoryTest {
 
     // Use fake subtopics remote data source for testing
     private lateinit var subtopicsRemoteDataSource: FakeSubtopicsRemoteDataSource
+
+    // Use fake feedbacks remote data source for testing
+    private lateinit var feedbacksRemoteDataSource: FakeFeedbacksRemoteDataSource
 
     // test user data
     private val testUser = User(
@@ -111,12 +111,14 @@ class ElearningRepositoryTest {
         subjectsRemoteDataSource = FakeSubjectsRemoteDataSource()
         topicsRemoteDataSource = FakeTopicsRemoteDataSource()
         subtopicsRemoteDataSource = FakeSubtopicsRemoteDataSource()
+        feedbacksRemoteDataSource = FakeFeedbacksRemoteDataSource()
         repository = DefaultElearningRepository(
             usersLocalDataSource,
             usersRemoteDataSource,
             subjectsRemoteDataSource,
             topicsRemoteDataSource,
-            subtopicsRemoteDataSource
+            subtopicsRemoteDataSource,
+            feedbacksRemoteDataSource
         )
     }
 
@@ -367,6 +369,35 @@ class ElearningRepositoryTest {
 
         // THEN - verify that the result is error
         assertThat(result).isInstanceOf(Error::class.java)
+    }
+
+    @Test
+    fun sendFeedback_success() = runBlocking {
+        // GIVEN - initially repository loads user
+        usersLocalDataSource.saveUser(testUser)
+        repository.getUser()
+
+        // WHEN - sending feedback
+        val result = repository.sendFeedback("")
+
+        // THEN - verify that the result is success
+        assertThat(result.succeeded).isTrue()
+    }
+
+    @Test
+    fun sendFeedback_error() = runBlocking {
+        // initially repository loads user
+        usersLocalDataSource.saveUser(testUser)
+        repository.getUser()
+
+        // GIVEN - remote data source returns error
+        feedbacksRemoteDataSource.setShouldReturnError(true)
+
+        // WHEN - sending feedback
+        val result = repository.sendFeedback("")
+
+        // THEN - verify that the result is success
+        assertThat(result.succeeded).isFalse()
     }
 
     @Test

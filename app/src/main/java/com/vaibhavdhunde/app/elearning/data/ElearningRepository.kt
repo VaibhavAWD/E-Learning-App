@@ -25,6 +25,8 @@ interface ElearningRepository {
 
     suspend fun getSubtopic(subtopicId: Long): Result<Subtopic>
 
+    suspend fun sendFeedback(message: String): Result<String>
+
     suspend fun getUser(): Result<User>
 
     suspend fun saveUser(user: User)
