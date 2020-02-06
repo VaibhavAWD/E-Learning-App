@@ -3,10 +3,7 @@ package com.vaibhavdhunde.app.elearning.data
 import com.google.common.truth.Truth.assertThat
 import com.vaibhavdhunde.app.elearning.data.Result.Error
 import com.vaibhavdhunde.app.elearning.data.Result.Success
-import com.vaibhavdhunde.app.elearning.data.entities.Subject
-import com.vaibhavdhunde.app.elearning.data.entities.Subtopic
-import com.vaibhavdhunde.app.elearning.data.entities.Topic
-import com.vaibhavdhunde.app.elearning.data.entities.User
+import com.vaibhavdhunde.app.elearning.data.entities.*
 import com.vaibhavdhunde.app.elearning.data.source.local.FakeUsersLocalDataSource
 import com.vaibhavdhunde.app.elearning.data.source.remote.*
 import kotlinx.coroutines.runBlocking
@@ -42,6 +39,9 @@ class ElearningRepositoryTest {
 
     // Use fake reports remote data source for testing
     private lateinit var reportsRemoteDataSource: FakeReportsRemoteDataSource
+
+    // Use fake blogs remote data source for testing
+    private lateinit var blogsRemoteDataSource: FakeBlogsRemoteDataSource
 
     // test user data
     private val testUser = User(
@@ -107,6 +107,25 @@ class ElearningRepositoryTest {
     )
     private val remoteSubtopics = listOf(testSubtopic1, testSubtopic2)
 
+    // test blogs data
+    private val testBlog1 = Blog(
+        1,
+        1,
+        "Test Blog 1",
+        "Test Blog Body",
+        "https://test.com/image.jpg",
+        "created_at"
+    )
+    private val testBlog2 = Blog(
+        2,
+        1,
+        "Test Blog 2",
+        "Test Blog Body",
+        "https://test.com/image2.jpg",
+        "created_at"
+    )
+    private val remoteBlogs = listOf(testBlog1, testBlog2)
+
     @Before
     fun setUp() {
         usersLocalDataSource = FakeUsersLocalDataSource()
@@ -116,6 +135,7 @@ class ElearningRepositoryTest {
         subtopicsRemoteDataSource = FakeSubtopicsRemoteDataSource()
         feedbacksRemoteDataSource = FakeFeedbacksRemoteDataSource()
         reportsRemoteDataSource = FakeReportsRemoteDataSource()
+        blogsRemoteDataSource = FakeBlogsRemoteDataSource()
         repository = DefaultElearningRepository(
             usersLocalDataSource,
             usersRemoteDataSource,
@@ -123,7 +143,8 @@ class ElearningRepositoryTest {
             topicsRemoteDataSource,
             subtopicsRemoteDataSource,
             feedbacksRemoteDataSource,
-            reportsRemoteDataSource
+            reportsRemoteDataSource,
+            blogsRemoteDataSource
         )
     }
 
@@ -432,6 +453,74 @@ class ElearningRepositoryTest {
 
         // THEN - verify that the result is success
         assertThat(result.succeeded).isFalse()
+    }
+
+    @Test
+    fun getBlogs_success_blogsReturned() = runBlocking {
+        // initially repository loads user
+        usersLocalDataSource.saveUser(testUser)
+        repository.getUser()
+
+        // GIVEN - remote has blogs
+        blogsRemoteDataSource.blogs = remoteBlogs
+
+        // WHEN - getting blogs
+        val result = repository.getBlogs()
+
+        // THEN - verify that the blogs are loaded from remote
+        assertThat(result.succeeded).isTrue()
+        val blogs = (result as Success).data
+        assertThat(blogs).isEqualTo(remoteBlogs)
+    }
+
+    @Test
+    fun getBlogs_errors() = runBlocking {
+        // initially repository loads user
+        usersLocalDataSource.saveUser(testUser)
+        repository.getUser()
+
+        // GIVEN - remote returns error
+        blogsRemoteDataSource.setShouldReturnError(true)
+
+        // WHEN - getting blogs
+        val result = repository.getBlogs()
+
+        // THEN - verify that the result is empty
+        assertThat(result).isInstanceOf(Error::class.java)
+    }
+
+    @Test
+    fun getBlog_success_blogReturned() = runBlocking {
+        // initially repository loads user
+        usersLocalDataSource.saveUser(testUser)
+        repository.getUser()
+
+        // GIVEN - remote has blog
+        blogsRemoteDataSource.blog = testBlog1
+
+        // WHEN - getting blog
+        val result = repository.getBlog(1)
+
+        // THEN - verify that the blog is loaded from remote
+        assertThat(result.succeeded).isTrue()
+        val blog = (result as Success).data
+        assertThat(blog).isEqualTo(testBlog1)
+    }
+
+    @Test
+    fun getBlog_error() = runBlocking {
+        // initially repository loads user
+        usersLocalDataSource.saveUser(testUser)
+        repository.getUser()
+
+        // GIVEN - remote returns error
+        blogsRemoteDataSource.setShouldReturnError(true)
+
+        // WHEN - getting blog
+        val result = repository.getBlog(1)
+
+        // THEN - verify that the result is error
+        assertThat(result).isInstanceOf(Error::class.java)
     }
 
     @Test

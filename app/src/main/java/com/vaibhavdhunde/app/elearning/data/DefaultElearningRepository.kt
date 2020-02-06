@@ -4,10 +4,7 @@ import com.vaibhavdhunde.app.elearning.api.ApiException
 import com.vaibhavdhunde.app.elearning.api.NetworkException
 import com.vaibhavdhunde.app.elearning.data.Result.Error
 import com.vaibhavdhunde.app.elearning.data.Result.Success
-import com.vaibhavdhunde.app.elearning.data.entities.Subject
-import com.vaibhavdhunde.app.elearning.data.entities.Subtopic
-import com.vaibhavdhunde.app.elearning.data.entities.Topic
-import com.vaibhavdhunde.app.elearning.data.entities.User
+import com.vaibhavdhunde.app.elearning.data.entities.*
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -20,6 +17,7 @@ class DefaultElearningRepository(
     private val subtopicsRemoteDataSource: SubtopicsRemoteDataSource,
     private val feedbacksRemoteDataSource: FeedbacksRemoteDataSource,
     private val reportsRemoteDataSource: ReportsRemoteDataSource,
+    private val blogsRemoteDataSource: BlogsRemoteDataSource,
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : ElearningRepository {
 
@@ -212,6 +210,40 @@ class DefaultElearningRepository(
                     return@withContext Error(Exception(response.message))
                 } else {
                     return@withContext Success(response.message)
+                }
+            } catch (e: NetworkException) {
+                return@withContext Error(e)
+            } catch (e: ApiException) {
+                return@withContext Error(e)
+            }
+        }
+    }
+
+    override suspend fun getBlogs(): Result<List<Blog>> {
+        return withContext(ioDispatcher) {
+            try {
+                val response = blogsRemoteDataSource.getBlogs(cachedUser!!.api_key)
+                if (response.error) {
+                    return@withContext Error(Exception(response.message))
+                } else {
+                    return@withContext Success(response.blogs!!)
+                }
+            } catch (e: NetworkException) {
+                return@withContext Error(e)
+            } catch (e: ApiException) {
+                return@withContext Error(e)
+            }
+        }
+    }
+
+    override suspend fun getBlog(blogId: Long): Result<Blog> {
+        return withContext(ioDispatcher) {
+            try {
+                val response = blogsRemoteDataSource.getBlog(blogId, cachedUser!!.api_key)
+                if (response.error) {
+                    return@withContext Error(Exception(response.message))
+                } else {
+                    return@withContext Success(response.blog!!)
                 }
             } catch (e: NetworkException) {
                 return@withContext Error(e)

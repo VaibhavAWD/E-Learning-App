@@ -1,9 +1,6 @@
 package com.vaibhavdhunde.app.elearning.data
 
-import com.vaibhavdhunde.app.elearning.data.entities.Subject
-import com.vaibhavdhunde.app.elearning.data.entities.Subtopic
-import com.vaibhavdhunde.app.elearning.data.entities.Topic
-import com.vaibhavdhunde.app.elearning.data.entities.User
+import com.vaibhavdhunde.app.elearning.data.entities.*
 
 interface ElearningRepository {
 
@@ -28,6 +25,10 @@ interface ElearningRepository {
     suspend fun sendFeedback(message: String): Result<String>
 
     suspend fun sendReport(message: String): Result<String>
+
+    suspend fun getBlogs(): Result<List<Blog>>
+
+    suspend fun getBlog(blogId: Long): Result<Blog>
 
     suspend fun getUser(): Result<User>
 

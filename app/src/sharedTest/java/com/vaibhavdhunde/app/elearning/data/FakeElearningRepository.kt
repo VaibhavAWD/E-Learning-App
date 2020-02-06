@@ -2,10 +2,7 @@ package com.vaibhavdhunde.app.elearning.data
 
 import com.vaibhavdhunde.app.elearning.data.Result.Error
 import com.vaibhavdhunde.app.elearning.data.Result.Success
-import com.vaibhavdhunde.app.elearning.data.entities.Subject
-import com.vaibhavdhunde.app.elearning.data.entities.Subtopic
-import com.vaibhavdhunde.app.elearning.data.entities.Topic
-import com.vaibhavdhunde.app.elearning.data.entities.User
+import com.vaibhavdhunde.app.elearning.data.entities.*
 
 class FakeElearningRepository : ElearningRepository {
 
@@ -18,6 +15,10 @@ class FakeElearningRepository : ElearningRepository {
     var subtopics: List<Subtopic> = emptyList()
 
     var subtopic: Subtopic? = null
+
+    var blogs: List<Blog> = emptyList()
+
+    var blog: Blog? = null
 
     private var shouldReturnError = false
 
@@ -122,6 +123,22 @@ class FakeElearningRepository : ElearningRepository {
             Error(Exception("Test exception"))
         } else {
             Success("Success")
+        }
+    }
+
+    override suspend fun getBlogs(): Result<List<Blog>> {
+        return if (shouldReturnError) {
+            Error(Exception("Test exception"))
+        } else {
+            Success(blogs)
+        }
+    }
+
+    override suspend fun getBlog(blogId: Long): Result<Blog> {
+        return if (shouldReturnError) {
+            Error(Exception("Test exception"))
+        } else {
+            Success(blog!!)
         }
     }
 
