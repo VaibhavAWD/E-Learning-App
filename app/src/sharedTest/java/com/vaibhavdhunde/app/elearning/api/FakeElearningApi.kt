@@ -165,4 +165,12 @@ class FakeElearningApi : ElearningApi {
             Response.success(DefaultResponse(false, "Success"))
         }
     }
+
+    override suspend fun addReport(message: String, apiKey: String): Response<DefaultResponse> {
+        return if (shouldReturnError) {
+            Response.success(DefaultResponse(true, "Test exception"))
+        } else {
+            Response.success(DefaultResponse(false, "Success"))
+        }
+    }
 }

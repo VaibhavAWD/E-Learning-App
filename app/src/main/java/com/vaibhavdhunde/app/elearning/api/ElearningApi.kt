@@ -82,6 +82,16 @@ interface ElearningApi {
         @Header(AUTHORIZATION) apiKey: String
     ): Response<DefaultResponse>
 
+    /**
+     * Reports Api
+     */
+    @FormUrlEncoded
+    @POST("reports")
+    suspend fun addReport(
+        @Field("message") message: String,
+        @Header(AUTHORIZATION) apiKey: String
+    ): Response<DefaultResponse>
+
     companion object {
 
         private const val AUTHORIZATION = "Authorization"
