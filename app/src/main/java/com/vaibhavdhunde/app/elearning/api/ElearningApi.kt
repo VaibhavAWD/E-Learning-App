@@ -72,6 +72,16 @@ interface ElearningApi {
         @Header(AUTHORIZATION) apiKey: String
     ): Response<SubtopicResponse>
 
+    /**
+     * Feedbacks Api
+     */
+    @FormUrlEncoded
+    @POST("feedbacks")
+    suspend fun addFeedback(
+        @Field("message") message: String,
+        @Header(AUTHORIZATION) apiKey: String
+    ): Response<DefaultResponse>
+
     companion object {
 
         private const val AUTHORIZATION = "Authorization"

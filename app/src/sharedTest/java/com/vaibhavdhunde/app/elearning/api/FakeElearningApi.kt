@@ -157,4 +157,12 @@ class FakeElearningApi : ElearningApi {
             Response.success(SubtopicResponse(false, null, testSubtopic1))
         }
     }
+
+    override suspend fun addFeedback(message: String, apiKey: String): Response<DefaultResponse> {
+        return if (shouldReturnError) {
+            Response.success(DefaultResponse(true, "Test exception"))
+        } else {
+            Response.success(DefaultResponse(false, "Success"))
+        }
+    }
 }
