@@ -16,6 +16,7 @@
         android:id="@+id/activity_register"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/white"
         tools:context=".ui.register.RegisterActivity">
 
         <ScrollView
@@ -24,121 +25,109 @@
             android:layout_height="match_parent"
             android:fillViewport="true">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <LinearLayout
                 android:id="@+id/register_container"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:clipToPadding="false"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="16dp">
 
                 <ProgressBar
                     android:id="@+id/progress_indicator"
                     style="?android:attr/progressBarStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="24dp"
                     android:visibility="@{viewmodel.dataLoading ? View.VISIBLE : View.GONE}"
-                    app:layout_constraintBottom_toTopOf="@+id/title_register"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_chainStyle="packed" />
+                    tools:visibility="gone" />
+
+                <ImageView
+                    android:id="@+id/app_logo"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_marginTop="24dp"
+                    android:src="@mipmap/ic_launcher" />
 
                 <TextView
-                    android:id="@+id/title_register"
+                    android:id="@+id/app_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
-                    android:text="@string/register"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/app_name"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    android:textStyle="bold"
                     app:layout_constraintBottom_toTopOf="@+id/input_name"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/progress_indicator"
-                    app:layout_goneMarginTop="0dp" />
+                    app:layout_constraintTop_toBottomOf="@+id/app_logo" />
 
                 <EditText
                     android:id="@+id/input_name"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginTop="24dp"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="32dp"
+                    android:background="@drawable/input_bg"
+                    android:drawableLeft="@drawable/ic_person"
+                    android:drawablePadding="12dp"
                     android:enabled="@{!viewmodel.dataLoading}"
                     android:hint="@string/hint_name"
                     android:imeOptions="actionNext"
                     android:inputType="textCapWords"
                     android:maxLength="250"
-                    android:text="@={viewmodel.name}"
-                    app:layout_constraintBottom_toTopOf="@+id/input_email"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/title_register" />
+                    android:padding="16dp"
+                    android:text="@={viewmodel.name}" />
 
                 <EditText
                     android:id="@+id/input_email"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginTop="24dp"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/input_bg"
+                    android:drawableLeft="@drawable/ic_email"
+                    android:drawablePadding="12dp"
                     android:enabled="@{!viewmodel.dataLoading}"
                     android:hint="@string/hint_email"
                     android:imeOptions="actionNext"
                     android:inputType="textEmailAddress"
                     android:maxLength="255"
-                    android:text="@={viewmodel.email}"
-                    app:layout_constraintBottom_toTopOf="@+id/input_password"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/input_name" />
+                    android:padding="16dp"
+                    android:text="@={viewmodel.email}" />
 
                 <EditText
                     android:id="@+id/input_password"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginLeft="16dp"
                     android:layout_marginTop="16dp"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginRight="16dp"
+                    android:background="@drawable/input_bg"
+                    android:drawableLeft="@drawable/ic_password"
+                    android:drawablePadding="12dp"
                     android:enabled="@{!viewmodel.dataLoading}"
                     android:hint="@string/hint_password"
                     android:imeOptions="actionNext"
                     android:inputType="textPassword"
                     android:maxLength="16"
-                    android:text="@={viewmodel.password}"
-                    app:layout_constraintBottom_toTopOf="@+id/input_conf_password"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/input_email" />
+                    android:padding="16dp"
+                    android:text="@={viewmodel.password}" />
 
                 <EditText
                     android:id="@+id/input_conf_password"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginLeft="16dp"
                     android:layout_marginTop="16dp"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginRight="16dp"
+                    android:background="@drawable/input_bg"
+                    android:drawableLeft="@drawable/ic_password"
+                    android:drawablePadding="12dp"
                     android:enabled="@{!viewmodel.dataLoading}"
                     android:hint="@string/hint_conf_password"
                     android:imeOptions="actionDone"
                     android:inputType="textPassword"
                     android:maxLength="16"
-                    android:text="@={viewmodel.confPassword}"
-                    app:layout_constraintBottom_toTopOf="@+id/btn_register"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/input_password" />
+                    android:padding="16dp"
+                    android:text="@={viewmodel.confPassword}" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_register"
@@ -164,13 +153,14 @@
                     android:onClick="@{() -> viewmodel.loginUser()}"
                     android:text="@string/login_here"
                     android:textAllCaps="false"
+                    android:textColor="@color/black"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/btn_register" />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
 
         </ScrollView>
 
