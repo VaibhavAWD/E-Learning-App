@@ -3,22 +3,27 @@
 
     <item
         android:id="@+id/subjectsFragment"
+        android:icon="@drawable/ic_study"
         android:title="@string/nav_study" />
 
     <item
         android:id="@+id/profileFragment"
+        android:icon="@drawable/ic_profile"
         android:title="@string/nav_profile" />
 
     <item
         android:id="@+id/feedbackFragment"
+        android:icon="@drawable/ic_feedback"
         android:title="@string/nav_send_feedback" />
 
     <item
         android:id="@+id/reportFragment"
+        android:icon="@drawable/ic_report"
         android:title="@string/nav_report_issue" />
 
     <item
         android:id="@+id/aboutFragment"
+        android:icon="@drawable/ic_about"
         android:title="@string/nav_about_us" />
 
 </menu>
