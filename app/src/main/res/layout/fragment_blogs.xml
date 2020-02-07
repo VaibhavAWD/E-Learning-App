@@ -49,10 +49,17 @@
             android:visibility="@{viewmodel.dataAvailable ? View.GONE : View.VISIBLE}"
             tools:visibility="gone">
 
+            <ImageView
+                android:id="@+id/no_data_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_no_data" />
+
             <TextView
                 android:id="@+id/no_blogs_label"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:gravity="center"
                 android:text="@string/no_blogs"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large" />
@@ -61,7 +68,7 @@
                 android:id="@+id/btn_retry"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="24dp"
                 android:onClick="@{() -> viewmodel.loadBlogs()}"
                 android:text="@string/retry" />
 
@@ -78,9 +85,9 @@
             android:scrollbars="vertical"
             android:visibility="@{viewmodel.dataAvailable ? View.VISIBLE : View.GONE}"
             app:adapter="@{adapter}"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:blogs="@{viewmodel.blogs}"
-            tools:listitem="@layout/item_subject" />
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/item_blog" />
 
     </LinearLayout>
 

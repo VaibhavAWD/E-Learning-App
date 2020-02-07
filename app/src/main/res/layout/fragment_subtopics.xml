@@ -22,7 +22,6 @@
         android:id="@+id/fragment_subtopics"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:visibility="gone"
         android:orientation="vertical">
 
         <FrameLayout
@@ -45,15 +44,22 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
-            tools:visibility="gone"
             android:orientation="vertical"
             android:padding="16dp"
-            android:visibility="@{viewmodel.dataAvailable ? View.GONE : View.VISIBLE}">
+            android:visibility="@{viewmodel.dataAvailable ? View.GONE : View.VISIBLE}"
+            tools:visibility="gone">
+
+            <ImageView
+                android:id="@+id/no_data_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_no_data" />
 
             <TextView
                 android:id="@+id/no_subtopics_label"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:gravity="center"
                 android:text="@string/no_subtopics"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large" />
@@ -62,7 +68,7 @@
                 android:id="@+id/btn_retry"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="24dp"
                 android:text="@string/retry" />
 
         </LinearLayout>
