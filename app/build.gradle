@@ -13,7 +13,7 @@ android {
         targetSdkVersion 29
         versionCode 2
         versionName "1.0"
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "com.vaibhavdhunde.app.elearning.util.CustomTestRunner"
         multiDexEnabled true
     }
     buildTypes {
@@ -75,6 +75,8 @@ dependencies {
     // instrumented testing
     androidTestImplementation "androidx.test.ext:junit:$ext_junit_version"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_version"
+    androidTestImplementation "androidx.test.espresso:espresso-contrib:$espresso_version"
+    implementation "androidx.test.espresso:espresso-idling-resource:$espresso_version"
     androidTestImplementation "com.google.truth:truth:$truth_version"
 
     // third party
